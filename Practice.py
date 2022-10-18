@@ -90,7 +90,7 @@ episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, '
     color=alt.Color('characterName',
         scale=alt.Scale(scheme='turbo'), legend=alt.Legend(title='Characters', orient='right')),
     tooltip=['total_words','actorName','characterType','gender'] 
-    ).configure_view(strokeWidth=0).properties(width=alt.Step(150)).interactive()
+    ).configure_view(strokeWidth=0).properties(width=alt.Step(80)).interactive()
 
 # columns for spacing plots
 col11, col22 = st.columns(2)
