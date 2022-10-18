@@ -86,7 +86,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
 episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, 'bottom': 5}
     ).mark_bar(size=35).encode(
     x=alt.X('characterName', axis=alt.Axis(title='Characters')),
-    y=alt.Y('total_words:Q', axis=alt.Axis(title='Total number of words')),
+    y=alt.Y('total_words', axis=alt.Axis(title='Total number of words')),
     color=alt.Color('characterName',
         scale=alt.Scale(scheme='turbo'), legend=alt.Legend(title='Characters', orient='right')),
     tooltip=['total_words','actorName','characterType','gender'] 
