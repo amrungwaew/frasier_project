@@ -88,7 +88,7 @@ episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, '
     x=alt.X('characterName', axis=alt.Axis(title='Characters')),
     y=alt.Y('total_words', axis=alt.Axis(title='Total number of words')),
     color=alt.Color('characterName',
-        scale=alt.Scale(scheme='turbo'), legend=alt.Legend(title='Characters', orient='right')),
+        scale=alt.Scale(scheme='turbo', domain=0,3000), legend=alt.Legend(title='Characters', orient='right')),
     tooltip=['total_words','actorName','characterType','gender'] 
     ).configure_view(strokeWidth=0).properties(width=alt.Step(50)).interactive()
 
