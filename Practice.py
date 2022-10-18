@@ -84,7 +84,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
 
 # plotting the episode chart with words by character
 episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, 'bottom': 5}
-    ).mark_bar(size=30).encode(
+    ).mark_bar(size=35).encode(
     x=alt.X('characterName', axis=alt.Axis(title='Characters')),
     y=alt.Y('total_words', axis=alt.Axis(title='Total number of words')),
     color=alt.Color('characterName',
