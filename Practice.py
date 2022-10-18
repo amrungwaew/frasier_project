@@ -80,7 +80,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
         alt.value('crimson'),    
         alt.value('darkgrey')),
     tooltip=['season_total','viewing_in_millions','imdb_ratings'] 
-    ).configure_view(strokeWidth=0).properties(width=alt.Step(100)).interactive()
+    ).configure_view(strokeWidth=0).properties(width=alt.Step(150)).interactive()
 
 # plotting the episode chart with words by character
 episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, 'bottom': 5}
@@ -90,7 +90,7 @@ episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, '
     color=alt.Color('characterName',
         scale=alt.Scale(scheme='turbo'), legend=alt.Legend(title='Characters', orient='right')),
     tooltip=['total_words','actorName','characterType','gender'] 
-    ).configure_view(strokeWidth=0).properties(width=alt.Step(50)).interactive()
+    ).configure_view(strokeWidth=0).properties(width=alt.Step(150)).interactive()
 
 # columns for spacing plots
 col11, col22 = st.columns(2)
