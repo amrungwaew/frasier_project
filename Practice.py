@@ -72,7 +72,7 @@ df_frasier_totalwords['imdb_ratings'] = pd.DataFrame(df_frasier_totalwords['imdb
 df_frasier_totalwords['viewing_in_millions'] = pd.DataFrame(df_frasier_totalwords['viewershipInMillions'].unique())
 
 # plotting the season chart with total words by season
-season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=40).encode(
+season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
     x=alt.X('seasonlist', axis=alt.Axis(title='Season',grid=False)),
     y=alt.Y('season_total',axis=alt.Axis(title='Total number of words')),
     color=alt.condition(
@@ -80,7 +80,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
         alt.value('crimson'),    
         alt.value('darkgrey')),
     tooltip=['season_total','viewing_in_millions','imdb_ratings'] 
-    ).configure_view(strokeWidth=0).properties(width=alt.Step(200)).interactive()
+    ).configure_view(strokeWidth=0).properties(width=alt.Step(100)).interactive()
 
 # plotting the episode chart with words by character
 episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, 'bottom': 5}
