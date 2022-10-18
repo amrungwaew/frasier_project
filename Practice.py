@@ -80,7 +80,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
         alt.value('crimson'),    
         alt.value('darkgrey')),
     tooltip=['season_total','viewing_in_millions','imdb_ratings'] 
-    ).configure_view(strokeWidth=0).properties(width=100).interactive()
+    ).configure_view(strokeWidth=0).properties(width=alt.Step(100)).interactive()
 
 # plotting the episode chart with words by character
 episode_plot = alt.Chart(df_episode,padding={'left': 0, 'top': 25, 'right': 5, 'bottom': 5}
