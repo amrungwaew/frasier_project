@@ -72,7 +72,7 @@ df_frasier_totalwords['imdb_ratings'] = pd.DataFrame(df_frasier_totalwords['imdb
 df_frasier_totalwords['viewing_in_millions'] = pd.DataFrame(df_frasier_totalwords['viewershipInMillions'].unique())
 
 # plotting the season chart with total words by season
-season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=20).encode(
+season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=40).encode(
     x=alt.X('seasonlist', axis=alt.Axis(title='Season',grid=False)),
     y=alt.Y('season_total',axis=alt.Axis(title='Total number of words')),
     color=alt.condition(
