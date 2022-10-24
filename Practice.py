@@ -156,7 +156,7 @@ with st.container():
         if achoice:
 
             ch1_select = st.multiselect(
-                "Select a main character:", [main_ch_names], ['Frasier Crane'])
+                "Select a main character:", main_ch_names)
             
             df_ch1_season = get_ch_season(ch_season_select, ch1_select)
             df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
