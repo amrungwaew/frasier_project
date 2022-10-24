@@ -140,7 +140,7 @@ with st.container():
     col11a, col22a, col33a = st.columns(3)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=100)).encode(
+        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=100),width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','gender'] 
@@ -162,7 +162,7 @@ with st.container():
             df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
 
             ch_season_combo_plot = alt.Chart(df_ch1_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-                    point=alt.OverlayMarkDef(size=80),width=10).encode(
+                    point=alt.OverlayMarkDef(size=50),width=10).encode(
                     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                     color=alt.Color('characterName',scale=alt.Scale(scheme='dark2'),
@@ -184,7 +184,7 @@ with st.container():
             df_chrec_season_combo = pd.concat([df_ch_season, df_ch_rec_season], ignore_index=True)
 
             df_chrec_season_combo_plot = alt.Chart(df_chrec_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-                point=alt.OverlayMarkDef(size=80),width=10).encode(
+                point=alt.OverlayMarkDef(size=50),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                 color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),
