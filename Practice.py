@@ -137,7 +137,7 @@ with st.container():
     col11a, col22a = st.columns(2)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='gold',point=alt.OverlayMarkDef(color="mediumblue",size=100)).encode(
+        color='gold',point=alt.OverlayMarkDef(color="seagrey",size=100)).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','characterType','gender'] 
