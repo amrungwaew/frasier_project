@@ -99,3 +99,49 @@ with col11:
     season_plot
 with col22:
     episode_plot
+
+## SECOND SET OF PLOTS
+
+
+with col1:
+    ch_select = st.selectbox(
+            "Select a character:",
+            (df_frasier_characterwords['characterName'].unique())
+    )
+
+with col3:
+    ch_season_select = st.selectbox(
+            "Which season?",
+            (range(1,12))
+    )
+
+
+def get_ch_season(chseason):
+    '''selecting the entries matching the character name and season selected'''
+    return df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason & df_frasier_characterwords['characterName'] == ch_select).dropna()
+
+# calling functions to create the df needed for plotting
+df_ch_season = get_ch_season(ch_season_select)
+
+ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line().encode(
+    x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+    y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+    tooltip=['actorName','characterType','gender'] 
+    ).configure_view(strokeWidth=0).properties(width=600).interactive()
+
+
+# with col5:
+#     ch_ep_select = st.selectbox(
+#             "Which episode of season " + ch_season_select + "?",
+#             (range(1,25))
+#     )
+
+# def get_ch_episode(chepisode, chseason):
+#     '''takes 2 parameters because the season selected needs to be used to select the right episode'''
+#     return chseason.where(chseason['episode'] == chepisode).dropna()
+
+# df_ch_episode = get_ch_episode(ch_ep_select, df_ch_season)
+
+# plt_choice = st.radio(
+#     "How do you want to look at the word count of " + ch_select + "?",
+#     ('by episode selected', 'by season selected'))
