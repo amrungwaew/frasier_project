@@ -137,6 +137,7 @@ with st.container():
     # calling functions to create the df needed for plotting
     df_ch_season = get_ch_season(ch_season_select, ch_select)
 
+with st.container():
     col11a, col22a, col33a = st.columns(3)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
