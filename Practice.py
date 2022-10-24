@@ -121,7 +121,8 @@ with col3:
 
 def get_ch_season(chseason):
     '''selecting the entries matching the character name and season selected'''
-    return df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason & df_frasier_characterwords['characterName'] == ch_select).dropna()
+    df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason).dropna()
+    return df.where(df['characterName'] == ch_select).dropna()
 
 # calling functions to create the df needed for plotting
 df_ch_season = get_ch_season(ch_season_select)
