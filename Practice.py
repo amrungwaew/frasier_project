@@ -154,9 +154,9 @@ with st.container():
         achoice = st.checkbox('I would like to compare ' + ch_select + ' with another main character')
 
         if achoice:
-
-            ch1_select = st.multiselect(
-                "Select a main character:", main_ch_names)
+            
+            ch1_select = st.selectbox(
+                "Select a main character:", key='secondary', options=main_ch_names)
             
             df_ch1_season = get_ch_season(ch_season_select, ch1_select)
             df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
