@@ -167,6 +167,8 @@ with st.container():
                 color='characterName',
                 tooltip=['total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
+            
+            ch_season_combo_plot
 
 # with col5:
 #     ch_ep_select = st.selectbox(
