@@ -104,7 +104,7 @@ with col22:
 
 ## SECOND SET OF PLOTS
 
-st.write("\n Here, you can view information by character in a given season.")
+st.subheader("\n Here, you can view information by character in a given season.")
 
 main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
 main_ch_names = list(main_ch['characterName'].unique())
