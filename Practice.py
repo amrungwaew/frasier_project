@@ -101,12 +101,15 @@ with col22:
     episode_plot
 
 ## SECOND SET OF PLOTS
-
+main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
+main_ch_names = list(main_ch['characterName'].unique())
+recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
+recur_ch_names = list(recur_ch['characterName'].unique())
 
 with col1:
     ch_select = st.selectbox(
-            "Select a character:",
-            ([df_frasier_characterwords['characterName'].unique()])
+            "Select a main or recurring character:",
+            (zip(main_ch_names,recur_ch_names))
     )
 
 with col3:
