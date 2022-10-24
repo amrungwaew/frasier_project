@@ -154,14 +154,15 @@ with st.container():
         achoice = st.checkbox('I would like to compare ' + ch_select + ' with another main character')
 
         if achoice:
-            ch1_select = st.selectbox(
-                "Select a main character:", key='secondary', options=main_ch_names)
+
+            ch1_select = st.multiselect(
+                "Select a main character:", main_ch_names, ['Frasier Crane'])
             
             df_ch1_season = get_ch_season(ch_season_select, ch1_select)
             df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
 
             ch_season_combo_plot = alt.Chart(df_ch1_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-                point=alt.OverlayMarkDef(size=100)).encode(
+                point=alt.OverlayMarkDef(size=80),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                 color=alt.Color('characterName',scale=alt.Scale(scheme='turbo')),
