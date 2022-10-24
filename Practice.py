@@ -121,11 +121,14 @@ with col3:
 
 def get_ch_season(chseason):
     '''selecting the entries matching the character name and season selected'''
-    df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason).dropna()
-    return df.where(df['characterName'] == ch_select).dropna()
+    return df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason).dropna()
+
+def get_ch_in_season(ch, seadf):
+    return seadf.where(seadf['characterName'] == ch).dropna()
 
 # calling functions to create the df needed for plotting
 df_ch_season = get_ch_season(ch_season_select)
+df_ch_in_sea = get_ch_in_season(ch_select, df_ch_season)
 
 ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line().encode(
     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
@@ -133,6 +136,7 @@ ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 
     tooltip=['actorName','characterType','gender'] 
     ).configure_view(strokeWidth=0).properties(width=600).interactive()
 
+ch_season_plot
 
 # with col5:
 #     ch_ep_select = st.selectbox(
