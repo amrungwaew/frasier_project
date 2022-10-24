@@ -106,7 +106,7 @@ with col22:
 with col1:
     ch_select = st.selectbox(
             "Select a character:",
-            (df_frasier_characterwords['characterName'].unique())
+            ([df_frasier_characterwords['characterName'].unique()])
     )
 
 with col3:
