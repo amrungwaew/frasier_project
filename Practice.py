@@ -12,7 +12,7 @@ st.set_page_config(
 
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
 
-st.write("Here, you can view information by season as well as by episode.")
+st.subheader("Here, you can view information by season as well as by episode.")
 
 # columns for spacing input widgets
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8) # columns for button spacing
@@ -104,7 +104,7 @@ with col22:
 
 ## SECOND SET OF PLOTS
 
-st.subheader("\n Here, you can view information by character in a given season.")
+st.subheader("Here, you can view information by character in a given season.")
 
 main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
 main_ch_names = list(main_ch['characterName'].unique())
