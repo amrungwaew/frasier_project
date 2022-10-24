@@ -137,11 +137,11 @@ with st.container():
     col11a, col22a = st.columns(2)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=100)).encode(
-        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=120)).encode(
+        x=alt.X('episode', axis=alt.Axis(title='Episodes by sequential number',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','characterType','gender'] 
-        ).configure_view(strokeWidth=0).properties(height=500,width=800).interactive()
+        ).configure_view(strokeWidth=0).properties(height=400,width=800).interactive()
 
     with col11a:
         ch_season_plot
