@@ -156,23 +156,25 @@ with st.container():
 
         if achoice:
             
-            ch1_select = st.selectbox(
-                "Select a main character:", key='secondarymain', options=main_ch_names)
-            
-            df_ch1_season = get_ch_season(ch_season_select, ch1_select)
-            df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
+            with st.container():
 
-            ch_season_combo_plot = alt.Chart(df_ch1_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-                point=alt.OverlayMarkDef(size=80),width=10).encode(
-                x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
-                y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                color=alt.Color('characterName',scale=alt.Scale(scheme='dark2')),
-                tooltip=['total_words','actorName','gender']
-                ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
-            
-            ch_season_combo_plot
+                ch1_select = st.selectbox(
+                    "Select a main character:", key='secondarymain', options=main_ch_names)
+                
+                df_ch1_season = get_ch_season(ch_season_select, ch1_select)
+                df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
 
-        elif anotherchoice:
+                ch_season_combo_plot = alt.Chart(df_ch1_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
+                    point=alt.OverlayMarkDef(size=80),width=10).encode(
+                    x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+                    y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+                    color=alt.Color('characterName',scale=alt.Scale(scheme='dark2')),
+                    tooltip=['total_words','actorName','gender']
+                    ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
+                
+                ch_season_combo_plot
+
+        if anotherchoice:
             
             ch_recur_select = st.selectbox(
                 "Select a recurring character:", key='secondarymain', options=recur_ch_names)
@@ -190,8 +192,6 @@ with st.container():
             
             df_chrec_season_combo_plot
 
-        else:
-            ''
 
 # with col5:
 #     ch_ep_select = st.selectbox(
