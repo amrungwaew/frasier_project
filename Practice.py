@@ -12,6 +12,8 @@ st.set_page_config(
 
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
 
+
+
 # columns for spacing input widgets
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8) # columns for button spacing
 
@@ -106,35 +108,37 @@ main_ch_names = list(main_ch['characterName'].unique())
 recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
 recur_ch_names = list(recur_ch['characterName'].unique())
 
-with col1:
-    ch_select = st.selectbox(
-            "Select a main character:",
-            (main_ch_names)
-    )
+with st.container():
 
-with col3:
-    ch_season_select = st.selectbox(
-            "Which season?",
-            (range(1,12))
-    )
+    with col1:
+        ch_select = st.selectbox(
+                "Select a main character:",
+                (main_ch_names)
+        )
 
-
-def get_ch_season(ch_season, char):
-    '''selecting the entries matching the character name and season selected'''
-    df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
-    return df.where(df['characterName'] == char).dropna()
+    with col3:
+        ch_season_select = st.selectbox(
+                "Which season?",
+                (range(1,12))
+        )
 
 
-# calling functions to create the df needed for plotting
-df_ch_season = get_ch_season(ch_season_select, ch_select)
+    def get_ch_season(ch_season, char):
+        '''selecting the entries matching the character name and season selected'''
+        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
+        return df.where(df['characterName'] == char).dropna()
 
-ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line().encode(
-    x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
-    y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-    tooltip=['actorName','characterType','gender'] 
-    ).configure_view(strokeWidth=0).properties(width=600).interactive()
 
-ch_season_plot
+    # calling functions to create the df needed for plotting
+    df_ch_season = get_ch_season(ch_season_select, ch_select)
+
+    ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line().encode(
+        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+        y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+        tooltip=['actorName','characterType','gender'] 
+        ).configure_view(strokeWidth=0).properties(width=600).interactive()
+
+    ch_season_plot
 
 # with col5:
 #     ch_ep_select = st.selectbox(
