@@ -158,8 +158,11 @@ with st.container():
             
             with st.container():
 
-                ch1_select = st.selectbox(
-                    "Select a main character:", key='secondarymain', options=main_ch_names)
+                cola, colb = st.columns(2)
+
+                with cola:
+                    ch1_select = st.selectbox(
+                        "Select a main character:", key='secondarymain', options=main_ch_names)
                 
                 df_ch1_season = get_ch_season(ch_season_select, ch1_select)
                 df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
@@ -177,7 +180,7 @@ with st.container():
         if anotherchoice:
             
             ch_recur_select = st.selectbox(
-                "Select a recurring character:", key='secondarymain', options=recur_ch_names)
+                "Select a recurring character:", key='secondaryrecur', options=recur_ch_names)
             
             df_ch_rec_season = get_ch_season(ch_season_select, ch_recur_select)
             df_chrec_season_combo = pd.concat([df_ch_season, df_ch_rec_season], ignore_index=True)
