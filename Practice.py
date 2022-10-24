@@ -118,7 +118,7 @@ with st.container():
                 (main_ch_names)
         )
 
-    with col3a:
+    with col2a:
         ch_season_select = st.selectbox(
                 "Which season?",
                 (range(1,12))
@@ -137,11 +137,11 @@ with st.container():
     col11a, col22a = st.columns(2)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='blue',point=alt.OverlayMarkDef(color="gold")).encode(
+        color='gold',point=alt.OverlayMarkDef(color="lightblue")).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','characterType','gender'] 
-        ).configure_view(strokeWidth=0).properties(width=600).interactive()
+        ).configure_view(strokeWidth=0).interactive()
 
     with col11a:
         ch_season_plot
