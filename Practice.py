@@ -184,7 +184,7 @@ with st.container():
             df_chrec_season_combo = pd.concat([df_ch_season, df_ch_rec_season], ignore_index=True)
 
             df_chrec_season_combo_plot = alt.Chart(df_chrec_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-                point=alt.OverlayMarkDef(size=50),width=10).encode(
+                point=alt.OverlayMarkDef(color=['white','red'],size=50),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                 color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),
