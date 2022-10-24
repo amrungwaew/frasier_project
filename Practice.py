@@ -149,10 +149,9 @@ with st.container():
     with col11a:
         ch_season_plot
 
-    achoice = st.checkbox('I would like to compare ' + ch_select + ' with another main character')
 
     with col22a:
-
+        achoice = st.checkbox('I would like to compare ' + ch_select + ' with another main character')
 
         if achoice:
             
