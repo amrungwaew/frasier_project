@@ -140,11 +140,11 @@ with st.container():
     col11a, col22a, col33a = st.columns(3)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=120)).encode(
+        color='gold',point=alt.OverlayMarkDef(color="steelblue",size=100)).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','gender'] 
-        ).configure_view(strokeWidth=0).properties(width=400).interactive()
+        ).configure_view(strokeWidth=0).properties(width=450).interactive()
 
     with col11a:
         ch_season_plot
@@ -165,9 +165,10 @@ with st.container():
                     point=alt.OverlayMarkDef(size=80),width=10).encode(
                     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                    color=alt.Color('characterName',scale=alt.Scale(scheme='dark2')),
+                    color=alt.Color('characterName',scale=alt.Scale(scheme='dark2'),
+                    legend=alt.Legend(title='Characters', orient='bottom')),
                     tooltip=['total_words','actorName','gender']
-                    ).configure_view(strokeWidth=0).properties(width=400).interactive()
+                    ).configure_view(strokeWidth=0).properties(width=450).interactive()
                 
             ch_season_combo_plot
 
@@ -186,9 +187,10 @@ with st.container():
                 point=alt.OverlayMarkDef(size=80),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow')),
+                color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),
+                legend=alt.Legend(title='Characters', orient='bottom')),
                 tooltip=['total_words','actorName','gender']
-                ).configure_view(strokeWidth=0).properties(width=400).interactive()
+                ).configure_view(strokeWidth=0).properties(width=450).interactive()
             
             df_chrec_season_combo_plot
 
