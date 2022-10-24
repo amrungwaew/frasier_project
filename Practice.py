@@ -165,7 +165,7 @@ with st.container():
                 point=alt.OverlayMarkDef(size=80),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                color=alt.Color('characterName',scale=alt.Scale(scheme='turbo')),
+                color=alt.Color('characterName',scale=alt.Scale(scheme='dark20')),
                 tooltip=['total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
             
