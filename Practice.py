@@ -165,7 +165,7 @@ with st.container():
                     point=alt.OverlayMarkDef(size=50),width=10).encode(
                     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                    color=alt.Color('characterName',scale=alt.Scale(scheme='viridis'),
+                    color=alt.Color('characterName',scale=alt.Scale(scheme='pinkyellowgreen'),
                     legend=alt.Legend(title='Characters', orient='bottom')),
                     tooltip=['total_words','actorName','gender']
                     ).configure_view(strokeWidth=0).properties(width=450).interactive()
@@ -187,7 +187,7 @@ with st.container():
                 point=alt.OverlayMarkDef(size=50),width=10).encode(
                 x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),
+                color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
                 legend=alt.Legend(title='Characters', orient='bottom')),
                 tooltip=['total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(width=450).interactive()
