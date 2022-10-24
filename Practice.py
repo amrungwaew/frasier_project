@@ -141,7 +141,7 @@ with st.container():
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','characterType','gender'] 
-        ).configure_view(strokeWidth=0).interactive()
+        ).configure_view(strokeWidth=0).properties(height=800,width=800).interactive()
 
     with col11a:
         ch_season_plot
