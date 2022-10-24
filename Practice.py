@@ -119,16 +119,13 @@ with col3:
     )
 
 
-def get_ch_season(chseason):
+def get_ch_season(ch_season, char):
     '''selecting the entries matching the character name and season selected'''
-    return df_frasier_characterwords.where(df_frasier_characterwords['season'] == chseason).dropna()
+    return df_frasier_characterwords.where((df_frasier_characterwords['season'] == ch_season) and (df_frasier_characterwords['characterName'] == char)).dropna()
 
-def get_ch_in_season(ch, seadf):
-    return seadf.where(seadf['characterName'] == ch).dropna()
 
 # calling functions to create the df needed for plotting
-df_ch_season = get_ch_season(ch_season_select)
-df_ch_in_sea = get_ch_in_season(ch_select, df_ch_season)
+df_ch_season = get_ch_season(ch_season_select, ch_select)
 
 ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line().encode(
     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
