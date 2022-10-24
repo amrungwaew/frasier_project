@@ -144,7 +144,7 @@ with st.container():
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['total_words','actorName','gender'] 
-        ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
+        ).configure_view(strokeWidth=0).properties(width=400).interactive()
 
     with col11a:
         ch_season_plot
@@ -167,13 +167,13 @@ with st.container():
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                     color=alt.Color('characterName',scale=alt.Scale(scheme='dark2')),
                     tooltip=['total_words','actorName','gender']
-                    ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
+                    ).configure_view(strokeWidth=0).properties(width=400).interactive()
                 
             ch_season_combo_plot
 
     with col33a:
         anotherchoice = st.checkbox('I would like to compare ' + ch_select + ' with a recurring character',key='recurring')
-        
+
         if anotherchoice:
             
             ch_recur_select = st.selectbox(
@@ -188,7 +188,7 @@ with st.container():
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                 color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow')),
                 tooltip=['total_words','actorName','gender']
-                ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
+                ).configure_view(strokeWidth=0).properties(width=400).interactive()
             
             df_chrec_season_combo_plot
 
