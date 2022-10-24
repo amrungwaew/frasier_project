@@ -141,13 +141,34 @@ with st.container():
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
         color='gold',point=alt.OverlayMarkDef(color="steelblue",size=120)).encode(
-        x=alt.X('episode', axis=alt.Axis(title='Episodes by sequential number',grid=False),scale=alt.Scale(zero=False)),
+        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        tooltip=['total_words','actorName','characterType','gender'] 
-        ).configure_view(strokeWidth=0).properties(height=400,width=800).interactive()
+        tooltip=['total_words','actorName','gender'] 
+        ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
 
     with col11a:
         ch_season_plot
+
+
+    with col22a:
+        achoice = st.checkbox('I would like to compare ' + ch_select + 'with another main character')
+
+        if achoice:
+            ch1_select = st.selectbox(
+                "Select a main character:",
+                (main_ch_names)
+                )
+            
+            df_ch1_season = get_ch_season(ch_season_select, ch1_select)
+            df_ch1_season_combo = pd.concat([df_ch_season, df_ch1_season], ignore_index=True)
+
+            ch_season_combo_plot = alt.Chart(df_ch1_season_combo,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
+                point=alt.OverlayMarkDef(color="steelblue",size=120)).encode(
+                x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+                y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+                color='characterName',
+                tooltip=['total_words','actorName','gender']
+                ).configure_view(strokeWidth=0).properties(height=400,width=600).interactive()
 
 # with col5:
 #     ch_ep_select = st.selectbox(
