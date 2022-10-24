@@ -108,8 +108,8 @@ recur_ch_names = list(recur_ch['characterName'].unique())
 
 with col1:
     ch_select = st.selectbox(
-            "Select a main or recurring character:",
-            ([main_ch_names+recur_ch_names])
+            "Select a main character:",
+            (main_ch_names)
     )
 
 with col3:
