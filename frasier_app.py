@@ -230,8 +230,7 @@ with st.container():
         tooltip=['title','total_words','actorName','gender'])
 
     areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
-            x='start', x2='stop', y=alt.value(0),  # pixels from top
-            y2=alt.value(900),  # pixels from top
+            x='start', x2='stop',
             color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
             legend=alt.Legend(title='Seasons', orient='bottom')))
 
