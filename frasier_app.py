@@ -159,7 +159,7 @@ with st.container():
         color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'] 
+        tooltip=['title','total_words','actorName','gender'] 
         ).configure_view(strokeWidth=0).properties(width=450).interactive()
 
     with col11a:
