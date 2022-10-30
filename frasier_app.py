@@ -248,7 +248,7 @@ with st.container():
             color='index:N'
         )
 
-    areas, ch_show_plot
+    areas + ch_show_plot
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
