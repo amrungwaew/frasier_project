@@ -143,7 +143,7 @@ with st.container():
         color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        tooltip=['total_words','actorName','gender'] 
+        tooltip=['title','total_words','actorName','gender'] 
         ).configure_view(strokeWidth=0).properties(width=450).interactive()
 
     with col11a:
@@ -167,7 +167,7 @@ with st.container():
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                     color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
                     legend=alt.Legend(title='Characters', orient='bottom')),
-                    tooltip=['total_words','actorName','gender']
+                    tooltip=['title','total_words','actorName','gender']
                     ).configure_view(strokeWidth=0).properties(width=450).interactive()
                 
             ch_season_combo_plot
@@ -189,11 +189,53 @@ with st.container():
                 y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
                 color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
                 legend=alt.Legend(title='Characters', orient='bottom')),
-                tooltip=['total_words','actorName','gender']
+                tooltip=['title','total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(width=450).interactive()
             
             df_chrec_season_combo_plot
 
+
+## THIRD SET
+
+st.subheader("Here, you can view information by character throughout the entire show.")
+
+with st.container():
+
+    col1aa, col2aa, col3aa, col4aa = st.columns(4)
+
+    with col1aa:
+        ch_options = st.multiselect('Select as many characters as you please',
+        [main_ch_names.append(recur_ch_names)],
+        ['Frasier Crane', 'Niles Crane'])
+    
+    def get_ch_show(char):
+        '''selecting the entries matching the character name'''
+        return df_frasier_characterwords.where(df_frasier_characterwords['characterName'] == char).dropna()
+    
+    df_selection_show = pd.DataFrame()
+    for person in ch_options:
+        df_selection_show = pd.concat(get_ch_show(person))
+
+    df_selection_show['season:episode'] = pd.concat(zip(range(0,12),range(0,25)))
+
+
+    ch_show_plot = alt.Chart(df_selection_show,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}
+    ).mark_line(width=15).encode(
+        x=alt.X('season:episode', axis=alt.Axis(title='Seasons : Episodes',grid=False)),
+        y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+        color=alt.Color('characterName',scale=alt.Scale(scheme='turbo'),
+        legend=alt.Legend(title='Characters', orient='bottom')),
+        tooltip=['title','total_words','actorName','gender']
+        ).configure_view(strokeWidth=0).interactive()
+
+    ch_show_plot
+
+    # with col1aa:
+    #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
+
+    #     if gender_select:
+    #         cat = st.selectbox("Select a category:", key='cats', options=['Gender',''])
+    
 
 # with col5:
 #     ch_ep_select = st.selectbox(
