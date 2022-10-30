@@ -227,7 +227,7 @@ with st.container():
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
         legend=alt.Legend(title='Characters', orient='bottom')),
-        tooltip=['title','total_words','actorName','gender'])
+        tooltip=['title','total_words','actorName','gender']).configure(width=800)
 
     areas = alt.Chart(
             seasons_rect.reset_index()
@@ -241,7 +241,7 @@ with st.container():
             color='index'
         )
 
-    (areas + ch_show_plot).configure(width=800).interactive()
+    (areas + ch_show_plot).interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
