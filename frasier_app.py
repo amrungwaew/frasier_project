@@ -216,12 +216,6 @@ with st.container():
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-    se_list = []
-    for s in range(1,12):
-        for e in range(1,25):
-            se_list.append((s,e))
-
-    df_selection_show['season:episode'] = se_list
 
     seasons_rect = pd.DataFrame({
         'start': [range(0,12)],
