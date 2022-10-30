@@ -205,8 +205,8 @@ with st.container():
 
     with col1aa:
         ch_options = st.multiselect('Select as many characters as you please',
-        [main_ch_names + recur_ch_names],
-        [''])
+        main_ch_names + recur_ch_names,
+        ['Roz Doyle'])
     
     def get_ch_show(char):
         '''selecting the entries matching the character name'''
