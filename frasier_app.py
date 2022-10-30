@@ -83,11 +83,11 @@ for i in range(1,12):
 
 
 
-df_frasier_totalwords['rating_avg'] = pd.DataFrame(rating_avg)
-df_frasier_totalwords['viewing_avg'] = pd.DataFrame(viewing_avg)
+df_frasier_totalwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
+df_frasier_totalwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
 
-df_frasier_characterwords['rating_avg'] = pd.DataFrame(rating_avg)
-df_frasier_characterwords['viewing_avg'] = pd.DataFrame(viewing_avg)
+df_frasier_characterwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
+df_frasier_characterwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
 
 # plotting the season chart with total words by season
 season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
@@ -157,7 +157,7 @@ with st.container():
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
         color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
-        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+        x=alt.X('episodeCount', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'] 
         ).configure_view(strokeWidth=0).properties(width=450).interactive()
