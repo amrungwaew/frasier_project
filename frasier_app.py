@@ -238,7 +238,7 @@ with st.container():
             x2='stop',
             y=alt.value(0),  # pixels from top
             y2=alt.value(900),  # pixels from top
-            color='index'
+            color='stop'
         )
 
     areas + ch_show_plot
