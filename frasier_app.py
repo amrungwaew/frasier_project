@@ -218,8 +218,8 @@ with st.container():
 
 
     seasons_rect = pd.DataFrame({
-        'start': [range(0,12)],
-        'stop': [range(1,13)]
+        'start': [0,1,2,3,4,5,6,7,8,9,10],
+        'stop': [1,2,3,4,5,6,7,8,9,10,11,12]
         })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
@@ -229,17 +229,10 @@ with st.container():
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender'])
 
-    areas = alt.Chart(
-            seasons_rect
-        ).mark_rect(
-            opacity=0.2
-        ).encode(
-            x='start',
-            x2='stop',
-            y=alt.value(0),  # pixels from top
+    areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
+            x='start', x2='stop', y=alt.value(0),  # pixels from top
             y2=alt.value(900),  # pixels from top
-            color='stop'
-        )
+            color='stop')
 
     areas + ch_show_plot
 
