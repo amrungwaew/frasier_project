@@ -232,9 +232,10 @@ with st.container():
     areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
             x='start', x2='stop', y=alt.value(0),  # pixels from top
             y2=alt.value(900),  # pixels from top
-            color='stop')
+            color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
+            legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    (areas + ch_show_plot).properties(width=800).interactive()
+    (areas + ch_show_plot).interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
