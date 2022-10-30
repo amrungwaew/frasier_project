@@ -86,10 +86,9 @@ for i in range(1,12):
 df_frasier_totalwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
 df_frasier_totalwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
 
-df_frasier_characterwords['rating_avg'] = 5
 
-# df_frasier_characterwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
-# df_frasier_characterwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
+df_frasier_characterwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
+df_frasier_characterwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
 
 # plotting the season chart with total words by season
 season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
@@ -148,8 +147,8 @@ with st.container():
 
     def get_ch_season(ch_season, char):
         '''selecting the entries matching the character name and season selected'''
-        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
-        return df.where(df['characterName'] == char).dropna()
+        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season)
+        return df.where(df['characterName'] == char)
 
 
     # calling functions to create the df needed for plotting
