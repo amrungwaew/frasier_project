@@ -157,7 +157,7 @@ with st.container():
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
         color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
-        x=alt.X('episodeCount', axis=alt.Axis(title='Episodes',grid=False)),
+        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'] 
         ).configure_view(strokeWidth=0).properties(width=450).interactive()
