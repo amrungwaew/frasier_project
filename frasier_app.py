@@ -84,10 +84,10 @@ for i in range(1,12):
 
 
 df_frasier_totalwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
-df_frasier_totalwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
+# df_frasier_totalwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
 
-df_frasier_characterwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
-df_frasier_characterwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
+# df_frasier_characterwords['rating_avg'] = pd.Series([round(num,2) for num in rating_avg])
+# df_frasier_characterwords['viewing_avg'] = pd.Series([round(num,2) for num in viewing_avg])
 
 # plotting the season chart with total words by season
 season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
