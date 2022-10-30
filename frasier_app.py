@@ -216,38 +216,38 @@ with st.container():
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-    # se_list = []
-    # for s in range(1,12):
-    #     for e in range(1,25):
-    #         se_list.append((s,e))
+    se_list = []
+    for s in range(1,12):
+        for e in range(1,25):
+            se_list.append((s,e))
 
-    # df_selection_show['season:episode'] = se_list
+    df_selection_show['season:episode'] = se_list
 
-    # seasons_rect = pd.DataFrame({
-    #     'start': [range(0,12)],
-    #     'stop': [range(1,13)]
-    #     })
+    seasons_rect = pd.DataFrame({
+        'start': [range(0,12)],
+        'stop': [range(1,13)]
+        })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
         legend=alt.Legend(title='Characters', orient='bottom')),
-        tooltip=['title','total_words','actorName','gender']).interactive()
+        tooltip=['title','total_words','actorName','gender'])
 
-    # areas = alt.Chart(
-    #         seasons_rect.reset_index()
-    #     ).mark_rect(
-    #         opacity=0.2
-    #     ).encode(
-    #         x='start',
-    #         x2='stop',
-    #         y=alt.value(0),  # pixels from top
-    #         y2=alt.value(300),  # pixels from top
-    #         color='index'
-    #     )
+    areas = alt.Chart(
+            seasons_rect.reset_index()
+        ).mark_rect(
+            opacity=0.2
+        ).encode(
+            x='start',
+            x2='stop',
+            y=alt.value(0),  # pixels from top
+            y2=alt.value(300),  # pixels from top
+            color='index'
+        )
 
-    ch_show_plot
+    (areas + ch_show_plot).configure(width=800).interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
