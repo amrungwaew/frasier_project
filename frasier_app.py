@@ -1,5 +1,6 @@
 ## Anna Jeffries, October 2022
 
+from statistics import mean
 import pandas as pd 
 import matplotlib.pyplot as plt
 import altair as alt
@@ -62,6 +63,7 @@ def get_episode(episode, the_season):
 df_season = get_season(season_select)
 df_episode = get_episode(episode_select, df_season)
 
+
 # getting the list of season word totals as well as a list of just the seasons and adding them to 
 # the main DataFrame called in season_plot because Altair is freaking annoying and refuses to take
 # in anything other than the one dataset so I'm having to add awkward hanging columns to get the
@@ -70,8 +72,20 @@ season_words = get_season_words()
 season_totals = pd.DataFrame({'totals':season_words})
 df_frasier_totalwords['season_total'] = season_totals
 df_frasier_totalwords['seasonlist'] = pd.DataFrame(range(1,12))
-df_frasier_totalwords['imdb_ratings'] = pd.DataFrame(df_frasier_totalwords['imdbRatings'].unique())
-df_frasier_totalwords['viewing_in_millions'] = pd.DataFrame(df_frasier_totalwords['viewershipInMillions'].unique())
+
+rating_avg = []
+for i in range(1,12):
+    rating_avg[i] = mean(df_frasier_totalwords['imdbRatings'].where(df_frasier_totalwords['season'] == i).dropna())
+
+viewing_avg = []
+for i in range(1,12):
+    viewing_avg[i] = mean(df_frasier_totalwords['viewershipInMillions'].where(df_frasier_totalwords['season'] == i).dropna())
+
+df_frasier_totalwords['rating_avg'] = rating_avg
+df_frasier_totalwords['viewing_avg'] = viewing_avg
+
+df_frasier_characterwords['rating_avg'] = rating_avg
+df_frasier_characterwords['viewing_avg'] = viewing_avg
 
 # plotting the season chart with total words by season
 season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
@@ -81,7 +95,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
         alt.datum.seasonlist == season_select,  
         alt.value('crimson'),    
         alt.value('darkgrey')),
-    tooltip=['season_total','viewing_in_millions','imdb_ratings'] 
+    tooltip=['season_total','viewing_avg','rating_avg'] 
     ).configure_view(strokeWidth=0).properties(width=600).interactive()
 
 # plotting the episode chart with words by character
@@ -130,8 +144,8 @@ with st.container():
 
     def get_ch_season(ch_season, char):
         '''selecting the entries matching the character name and season selected'''
-        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
-        return df.where(df['characterName'] == char).dropna()
+        tdf = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
+        return tdf.where(tdf['characterName'] == char).dropna()
 
 
     # calling functions to create the df needed for plotting
@@ -143,7 +157,7 @@ with st.container():
         color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        tooltip=['title','total_words','actorName','gender'] 
+        tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'] 
         ).configure_view(strokeWidth=0).properties(width=450).interactive()
 
     with col11a:
@@ -216,7 +230,6 @@ with st.container():
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-
     seasons_rect = pd.DataFrame({
         'start': [0,24,48,72,96,120,144,168,192,216,240,264],
         'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
@@ -227,7 +240,7 @@ with st.container():
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
         legend=alt.Legend(title='Characters', orient='bottom')),
-        tooltip=['title','total_words','actorName','gender'])
+        tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'])
 
     areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
             x='start', x2='stop',
