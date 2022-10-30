@@ -73,21 +73,21 @@ season_totals = pd.DataFrame({'totals':season_words})
 df_frasier_totalwords['season_total'] = season_totals
 df_frasier_totalwords['seasonlist'] = pd.DataFrame(range(1,12))
 
-rating_avg = []
-for i in range(1,12):
-    rating_avg.append(mean(df_frasier_totalwords['imdbRatings'].where(df_frasier_totalwords['season'] == i).dropna()))
+# rating_avg = []
+# for i in range(1,12):
+#     rating_avg.append(mean(df_frasier_totalwords['imdbRatings'].where(df_frasier_totalwords['season'] == i).dropna()))
 
-viewing_avg = []
-for i in range(1,12):
-    viewing_avg.append(mean(df_frasier_totalwords['viewershipInMillions'].where(df_frasier_totalwords['season'] == i).dropna()))
+# viewing_avg = []
+# for i in range(1,12):
+#     viewing_avg.append(mean(df_frasier_totalwords['viewershipInMillions'].where(df_frasier_totalwords['season'] == i).dropna()))
 
 
 
-df_frasier_totalwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
-df_frasier_totalwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
+# df_frasier_totalwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
+# df_frasier_totalwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
 
-df_frasier_characterwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
-df_frasier_characterwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
+# df_frasier_characterwords['rating_avg'] = pd.DataFrame([round(num,2) for num in rating_avg])
+# df_frasier_characterwords['viewing_avg'] = pd.DataFrame([round(num,2) for num in viewing_avg])
 
 # plotting the season chart with total words by season
 season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_bar(size=30).encode(
@@ -97,7 +97,7 @@ season_plot = alt.Chart(df_frasier_totalwords,padding={'left': 0, 'top': 25, 'ri
         alt.datum.seasonlist == season_select,  
         alt.value('crimson'),    
         alt.value('darkgrey')),
-    tooltip=['season_total','viewing_avg','rating_avg'] 
+    tooltip=['season_total'] 
     ).configure_view(strokeWidth=0).properties(width=600).interactive()
 
 # plotting the episode chart with words by character
@@ -146,8 +146,8 @@ with st.container():
 
     def get_ch_season(ch_season, char):
         '''selecting the entries matching the character name and season selected'''
-        tdf = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
-        return tdf.where(tdf['characterName'] == char).dropna()
+        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season).dropna()
+        return df.where(df['characterName'] == char).dropna()
 
 
     # calling functions to create the df needed for plotting
