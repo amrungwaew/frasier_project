@@ -216,7 +216,12 @@ with st.container():
     for person in ch_options:
         df_selection_show = df_selection_show.append(get_ch_show(person))
 
-    df_selection_show['season:episode'] = pd.DataFrame(zip(range(0,12),range(0,25)))
+    se_list = []
+    for s in range(1,12):
+        for e in range(1,25):
+            se_list.append((s,e))
+
+    df_selection_show['season:episode'] = se_list
 
 
     ch_show_plot = alt.Chart(df_selection_show,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}
