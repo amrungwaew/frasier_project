@@ -234,7 +234,7 @@ with st.container():
         color=alt.Color(['characterName','season'],scale=alt.Scale(scheme='turbo'),
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender']
-        )
+        ).configure_view(strokeWidth=0).interactive()
 
     areas = alt.Chart(
             seasons_rect.reset_index()
@@ -248,7 +248,7 @@ with st.container():
             color='index:N'
         )
 
-    areas + ch_show_plot.interactive()
+    areas, ch_show_plot
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
