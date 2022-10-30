@@ -214,7 +214,7 @@ with st.container():
     
     df_selection_show = pd.DataFrame()
     for person in ch_options:
-        df_selection_show = df_selection_show.concat(get_ch_show(person))
+        df_selection_show = df_selection_show.append(get_ch_show(person))
 
     df_selection_show['season:episode'] = pd.concat(zip(range(0,12),range(0,25)))
 
