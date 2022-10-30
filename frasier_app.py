@@ -147,8 +147,8 @@ with st.container():
 
     def get_ch_season(ch_season, char):
         '''selecting the entries matching the character name and season selected'''
-        df = df_frasier_characterwords.where(df_frasier_characterwords['season'] == ch_season)
-        return df.where(df['characterName'] == char)
+        df = df_frasier_characterwords.loc[df_frasier_characterwords['season'] == ch_season]
+        return df.loc[df['characterName'] == char]
 
 
     # calling functions to create the df needed for plotting
