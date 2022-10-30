@@ -223,6 +223,10 @@ with st.container():
 
     # df_selection_show['season:episode'] = se_list
 
+    seasons_rect = pd.DataFrame({
+        'start': [range(0,12)],
+        'stop': [range(1,13)]
+        })
 
     ch_show_plot = alt.Chart(df_selection_show,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}
     ).mark_line(width=15).encode(
@@ -231,9 +235,21 @@ with st.container():
         color=alt.Color(['characterName','season'],scale=alt.Scale(scheme='turbo'),
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender']
-        ).configure_view(strokeWidth=0).interactive()
+        ).configure_view(strokeWidth=0)
 
-    ch_show_plot
+    areas = alt.Chart(
+            seasons_rect.reset_index()
+        ).mark_rect(
+            opacity=0.2
+        ).encode(
+            x='start',
+            x2='stop',
+            y=alt.value(0),  # pixels from top
+            y2=alt.value(300),  # pixels from top
+            color='index:N'
+        )
+
+    (ch_show_plot + areas).interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
