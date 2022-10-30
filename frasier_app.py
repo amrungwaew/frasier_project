@@ -223,10 +223,10 @@ with st.container():
 
     # df_selection_show['season:episode'] = se_list
 
-    seasons_rect = pd.DataFrame({
-        'start': [range(0,12)],
-        'stop': [range(1,13)]
-        })
+    # seasons_rect = pd.DataFrame({
+    #     'start': [range(0,12)],
+    #     'stop': [range(1,13)]
+    #     })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
