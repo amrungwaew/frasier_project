@@ -235,19 +235,19 @@ with st.container():
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender'])
 
-    areas = alt.Chart(
-            seasons_rect.reset_index()
-        ).mark_rect(
-            opacity=0.2
-        ).encode(
-            x='start',
-            x2='stop',
-            y=alt.value(0),  # pixels from top
-            y2=alt.value(300),  # pixels from top
-            color='index:N'
-        )
+    # areas = alt.Chart(
+    #         seasons_rect.reset_index()
+    #     ).mark_rect(
+    #         opacity=0.2
+    #     ).encode(
+    #         x='start',
+    #         x2='stop',
+    #         y=alt.value(0),  # pixels from top
+    #         y2=alt.value(300),  # pixels from top
+    #         color='index'
+    #     )
 
-    alt.layer(areas + ch_show_plot).interactive()
+    ch_show_plot.interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
