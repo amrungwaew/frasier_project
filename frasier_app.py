@@ -234,7 +234,7 @@ with st.container():
             y2=alt.value(900),  # pixels from top
             color='stop')
 
-    areas + ch_show_plot
+    (areas + ch_show_plot).properties(width=800).interactive()
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
