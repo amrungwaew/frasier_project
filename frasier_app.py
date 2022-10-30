@@ -245,12 +245,12 @@ with st.container():
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender','imdbRatings','viewershipInMillions'])
 
-    areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
-            x='start', x2='stop',
-            color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
-            legend=alt.Legend(title='Seasons', orient='bottom')))
+    # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.2).encode(
+    #         x='start', x2='stop',
+    #         color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
+    #         legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    areas + ch_show_plot
+    ch_show_plot
 
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
