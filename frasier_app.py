@@ -216,19 +216,19 @@ with st.container():
     for person in ch_options:
         df_selection_show = df_selection_show.append(get_ch_show(person))
 
-    se_list = []
-    for s in range(1,12):
-        for e in range(1,25):
-            se_list.append((s,e))
+    # se_list = []
+    # for s in range(1,12):
+    #     for e in range(1,25):
+    #         se_list.append((s,e))
 
-    df_selection_show['season:episode'] = se_list
+    # df_selection_show['season:episode'] = se_list
 
 
     ch_show_plot = alt.Chart(df_selection_show,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}
     ).mark_line(width=15).encode(
-        x=alt.X('season:episode', axis=alt.Axis(title='Seasons : Episodes',grid=False)),
+        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='turbo'),
+        color=alt.Color('characterName','season',scale=alt.Scale(scheme='turbo'),
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender']
         ).configure_view(strokeWidth=0).interactive()
