@@ -231,7 +231,7 @@ with st.container():
     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color(['characterName','season'],scale=alt.Scale(scheme='rainbow'),
+        color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender']).interactive()
 
