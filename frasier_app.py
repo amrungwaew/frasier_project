@@ -218,8 +218,8 @@ with st.container():
 
 
     seasons_rect = pd.DataFrame({
-        'start': [0,1,2,3,4,5,6,7,8,9,10,11],
-        'stop': [1,2,3,4,5,6,7,8,9,10,11,12]
+        'start': [0,24,48,72,96,120,144,168,192,216,240,264],
+        'stop': [[0,24,48,72,96,120,144,168,192,216,240,264]+24]
         })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
