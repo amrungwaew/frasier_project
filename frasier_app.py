@@ -75,7 +75,7 @@ df_frasier_totalwords['seasonlist'] = pd.DataFrame(range(1,12))
 
 rating_avg = []
 for i in range(1,12):
-    rating_avg[i] = mean(df_frasier_totalwords['imdbRatings'].where(df_frasier_totalwords['season'] == i).dropna())
+    rating_avg.append(mean(df_frasier_totalwords['imdbRatings'].where(df_frasier_totalwords['season'] == i).dropna()))
 
 viewing_avg = []
 for i in range(1,12):
