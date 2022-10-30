@@ -228,8 +228,7 @@ with st.container():
         'stop': [range(1,13)]
         })
 
-    ch_show_plot = alt.Chart(df_selection_show,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}
-    ).mark_line(width=15).encode(
+    ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color(['characterName','season'],scale=alt.Scale(scheme='turbo'),
