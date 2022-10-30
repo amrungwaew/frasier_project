@@ -228,7 +228,7 @@ with st.container():
     ).mark_line(width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName','season',scale=alt.Scale(scheme='turbo'),
+        color=alt.Color(['characterName','season'],scale=alt.Scale(scheme='turbo'),
         legend=alt.Legend(title='Characters', orient='bottom')),
         tooltip=['title','total_words','actorName','gender']
         ).configure_view(strokeWidth=0).interactive()
