@@ -230,14 +230,14 @@ with st.container():
         tooltip=['title','total_words','actorName','gender'])
 
     areas = alt.Chart(
-            seasons_rect.reset_index()
+            seasons_rect
         ).mark_rect(
             opacity=0.2
         ).encode(
             x='start',
             x2='stop',
             y=alt.value(0),  # pixels from top
-            y2=alt.value(300),  # pixels from top
+            y2=alt.value(900),  # pixels from top
             color='index'
         )
 
