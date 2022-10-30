@@ -214,7 +214,7 @@ with st.container():
     
     df_selection_show = pd.DataFrame()
     for person in ch_options:
-        df_selection_show = df_selection_show.append(get_ch_show(person))
+        df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
     # se_list = []
     # for s in range(1,12):
