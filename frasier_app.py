@@ -251,7 +251,7 @@ with st.container():
 
     areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
             x='start', x2='stop',
-            color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
+            color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow')
             )).properties(height=500,width=1400)
 
     (areas + ch_show_plot).resolve_scale(color='independent')
