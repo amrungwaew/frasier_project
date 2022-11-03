@@ -245,18 +245,16 @@ with st.container():
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
-        title='Characters', orient='bottom')),
+        title='Characters', orient='top')),
         tooltip=['total_words','title'],
-        )
+        ).properties(height=500,width=1400)
 
     areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
             x='start', x2='stop',
             color=alt.Color('index:N',scale=alt.Scale(scheme='rainbow'),
-            legend=alt.Legend(title='Seasons', orient='bottom')))
+            legend=alt.Legend(title='Seasons', orient='bottom'))).properties(height=500,width=1400)
 
-    combo = alt.layer(areas,ch_show_plot)
-    combo.properties(height=500,width=1400)
-    combo
+    areas + ch_show_plot
 
     if kde_plot:
 
