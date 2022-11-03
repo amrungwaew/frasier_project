@@ -226,8 +226,9 @@ with st.container():
     
     def get_ch_show(char):
         '''selecting the entries matching the character name'''
-        return df_frasier_characterwords.where(df_frasier_characterwords['characterName'] == char).dropna()
+        return df_frasier_characterwords.loc[df_frasier_characterwords['characterName'] == char]
     
+
     df_selection_show = pd.DataFrame()
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
