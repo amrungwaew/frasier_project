@@ -123,11 +123,6 @@ with col22:
 
 st.subheader("Here, you can view information by character in a given season.")
 
-# main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
-# main_ch_names = list(main_ch['characterName'].unique())
-# recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
-# recur_ch_names = list(recur_ch['characterName'].unique())
-
 main_ch = df_frasier_characterwords.loc[df_frasier_characterwords['characterType'] == 'main']
 main_ch_names = list(main_ch['characterName'].unique())
 recur_ch = df_frasier_characterwords.loc[df_frasier_characterwords['characterType'] == 'recurring']
@@ -140,7 +135,7 @@ with st.container():
     with col1a:
         ch_select = st.selectbox(
                 "Select a main character:",
-                (main_ch_names)
+                main_ch_names
         )
 
     with col2a:
@@ -162,7 +157,7 @@ with st.container():
     col11a, col22a, col33a = st.columns(3)
 
     ch_season_plot = alt.Chart(df_ch_season,padding={'left': 0, 'top': 25, 'right': 0, 'bottom': 5}).mark_line(
-        color='gold',point=alt.OverlayMarkDef(color="white",size=80),width=15).encode(
+        color='gold',point=alt.OverlayMarkDef(size=80),width=15).encode(
         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         tooltip=['title','total_words','actorName','gender'] 
@@ -217,65 +212,61 @@ with st.container():
             df_chrec_season_combo_plot
 
 
-## THIRD SET
+# THIRD SET
 
-# st.subheader("Here, you can view information by character throughout the entire show.")
+st.subheader("*** Everything below is WIP ***")
 
-# with st.container():
+with st.container():
 
-#     col1aa, col2aa, col3aa, col4aa = st.columns(4)
+    col1aa, col2aa, col3aa, col4aa = st.columns(4)
 
-#     with col1aa:
-#         ch_options = st.multiselect('Select as many characters as you please',
-#         main_ch_names + recur_ch_names,
-#         ['Roz Doyle'])
+    with col1aa:
+        ch_options = st.multiselect('Select as many characters as you please',
+        main_ch_names + recur_ch_names,['Frasier Crane'])
     
-#     def get_ch_show(char):
-#         '''selecting the entries matching the character name'''
-#         return df_frasier_characterwords.where(df_frasier_characterwords['characterName'] == char).dropna()
-    
-#     df_selection_show = pd.DataFrame()
-#     for person in ch_options:
-#         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
+    with col3aa:
+        kde_plot = st.checkbox("View a smoothed plot with the rolling mean")
 
-#     seasons_rect = pd.DataFrame({
-#         'start': [0,24,48,72,96,120,144,168,192,216,240,264],
-#         'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
-#         })
-
-#     ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
-#         x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
-#         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-#         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
-#         legend=alt.Legend(title='Characters', orient='bottom')),
-#         tooltip=['title','total_words','actorName','gender'])
-
-#     areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
-#             x='start', x2='stop',
-#             color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
-#             legend=alt.Legend(title='Seasons', orient='bottom')))
-
-#     areas + ch_show_plot
-
-    # with col1aa:
-    #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
-
-    #     if gender_select:
-    #         cat = st.selectbox("Select a category:", key='cats', options=['Gender',''])
+    def get_ch_show(char):
+        '''selecting the entries matching the character name'''
+        return df_frasier_characterwords.loc[df_frasier_characterwords['characterName'] == char]
     
 
-# with col5:
-#     ch_ep_select = st.selectbox(
-#             "Which episode of season " + ch_season_select + "?",
-#             (range(1,25))
-#     )
+    df_selection_show = pd.DataFrame()
+    for person in ch_options:
+        df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-# def get_ch_episode(chepisode, chseason):
-#     '''takes 2 parameters because the season selected needs to be used to select the right episode'''
-#     return chseason.where(chseason['episode'] == chepisode).dropna()
+    seasons_rect = pd.DataFrame({
+        'start': [0,24,48,72,96,120,144,168,192,216,240,264],
+        'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
+        })
 
-# df_ch_episode = get_ch_episode(ch_ep_select, df_ch_season)
+    ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
+        x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
+        y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+        color=alt.Color('characterName',scale=alt.Scale(scheme='pastel1'),legend=alt.Legend(
+        title='Characters')),
+        tooltip=['total_words','title'],
+        ).properties(height=500,width=1400)
 
-# plt_choice = st.radio(
-#     "How do you want to look at the word count of " + ch_select + "?",
-#     ('by episode selected', 'by season selected'))
+    areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
+            x='start', x2='stop',
+            color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
+            legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
+
+    areas + ch_show_plot
+
+    if kde_plot:
+
+        # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
+
+        smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
+            rolling_mean='mean(total_words)',frame=[-2,2]).encode(
+            x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
+            y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
+            color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+            title='Characters', orient='bottom')),
+            tooltip=['total_words','title']).properties(
+            height=500,width=1400)
+
+        areas + smooth_plot
