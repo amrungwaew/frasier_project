@@ -214,36 +214,36 @@ with st.container():
 
 # THIRD SET
 
-st.subheader("Here, you can view information by character throughout the entire show.")
+# st.subheader("Here, you can view information by character throughout the entire show.")
 
-with st.container():
+# with st.container():
 
-    col1aa, col2aa, col3aa, col4aa = st.columns(4)
+#     col1aa, col2aa, col3aa, col4aa = st.columns(4)
 
-    with col1aa:
-        ch_options = st.multiselect('Select as many characters as you please',
-        main_ch_names + recur_ch_names)
+#     with col1aa:
+#         ch_options = st.multiselect('Select as many characters as you please',
+#         main_ch_names + recur_ch_names)
     
-    def get_ch_show(char):
-        '''selecting the entries matching the character name'''
-        return df_frasier_characterwords.loc[df_frasier_characterwords['characterName'] == char]
+#     def get_ch_show(char):
+#         '''selecting the entries matching the character name'''
+#         return df_frasier_characterwords.loc[df_frasier_characterwords['characterName'] == char]
     
 
-    df_selection_show = pd.DataFrame()
-    for person in ch_options:
-        df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
+#     df_selection_show = pd.DataFrame()
+#     for person in ch_options:
+#         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
     # seasons_rect = pd.DataFrame({
     #     'start': [0,24,48,72,96,120,144,168,192,216,240,264],
     #     'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
     #     })
 
-    ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
-        x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
-        y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
-        legend=alt.Legend(title='Characters', orient='bottom')),
-        tooltip=['title','total_words','actorName','gender']).interactive()
+    # ch_show_plot = alt.Chart(df_selection_show).mark_line(width=15).encode(
+    #     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
+    #     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
+    #     color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
+    #     legend=alt.Legend(title='Characters', orient='bottom')),
+    #     tooltip=['title','total_words','actorName','gender']).interactive()
 
     # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
     #         x='start', x2='stop',
