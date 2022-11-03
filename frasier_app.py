@@ -123,9 +123,14 @@ with col22:
 
 st.subheader("Here, you can view information by character in a given season.")
 
-main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
+# main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
+# main_ch_names = list(main_ch['characterName'].unique())
+# recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
+# recur_ch_names = list(recur_ch['characterName'].unique())
+
+main_ch = df_frasier_characterwords.loc[df_frasier_characterwords['characterType'] == 'main']
 main_ch_names = list(main_ch['characterName'].unique())
-recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
+recur_ch = df_frasier_characterwords.loc[df_frasier_characterwords['characterType'] == 'recurring']
 recur_ch_names = list(recur_ch['characterName'].unique())
 
 with st.container():
