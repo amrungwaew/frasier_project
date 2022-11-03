@@ -244,7 +244,7 @@ with st.container():
     ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='pastel1'),legend=alt.Legend(
+        color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),legend=alt.Legend(
         title='Characters')),
         tooltip=['total_words','title'],
         ).configure_view(strokeWidth=0).properties(height=500,width=1400)
