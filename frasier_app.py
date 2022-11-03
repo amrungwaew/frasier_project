@@ -247,7 +247,7 @@ with st.container():
         color=alt.Color('characterName',scale=alt.Scale(scheme='pastel1'),legend=alt.Legend(
         title='Characters')),
         tooltip=['total_words','title'],
-        ).properties(height=500,width=1400)
+        ).configure_view(strokeWidth=0).properties(height=500,width=1400)
 
     # areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
     #         x='start', x2='stop',
@@ -261,12 +261,12 @@ with st.container():
         # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
 
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
-            rolling_mean='mean(total_words)',frame=[-1,4]).encode(
+            rolling_mean='mean(total_words)',frame=[-4,4]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
             color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
             title='Characters', orient='bottom')),
-            tooltip=['total_words','title']).properties(
+            tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
             height=500,width=1400)
 
         smooth_plot
