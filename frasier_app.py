@@ -258,7 +258,7 @@ with st.container():
     if kde_plot:
 
         # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
-        st.caption("I know this smoothing is terrible and tricky due to such a high variance in number and appearance.")
+        st.caption("I know this smoothing is terrible and tricky due to such a high variance in number and appearance... My next step is to fix this.")
 
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
             rolling_mean='mean(total_words)',frame=[-4,4]).encode(
