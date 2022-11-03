@@ -252,9 +252,9 @@ with st.container():
     areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
             x='start', x2='stop',
             color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
-            legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
+            )).properties(height=500,width=1400)
 
-    alt.layer(areas,ch_show_plot).resolve_scale(color='independent')
+    (areas + ch_show_plot).resolve_scale(color='independent')
 
     if kde_plot:
 
@@ -264,8 +264,7 @@ with st.container():
             rolling_mean='mean(total_words)',frame=[-2,2]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
-            color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
-            title='Characters', orient='bottom')),
+            color=alt.Color('characterName',scale=alt.Scale(scheme='set2')),
             tooltip=['total_words','title']).properties(
             height=500,width=1400)
 
