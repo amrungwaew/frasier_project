@@ -244,7 +244,7 @@ with st.container():
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
         title='Characters', orient='bottom')),
         tooltip=['total_words','title'],
-        ).properties(height=500,width=1400).interactive()
+        ).configure_view(strokeWidth=0).properties(height=500,width=1400).interactive()
 
     # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
     #         x='start', x2='stop',
