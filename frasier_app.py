@@ -249,12 +249,12 @@ with st.container():
         tooltip=['total_words','title'],
         )
 
-    areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.1).encode(
+    areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
             x='start', x2='stop',
             color=alt.Color('index:N',scale=alt.Scale(scheme='rainbow'),
             legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    (areas + ch_show_plot)
+    (areas + ch_show_plot).properties(height=500,width=1400).interactive()
 
     if kde_plot:
 
