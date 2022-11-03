@@ -241,9 +241,10 @@ with st.container():
     ch_show_plot = alt.Chart(df_selection_show).mark_line().encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='set2')),
+        color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+        title='Characters', orient='bottom')),
         tooltip=['total_words','title'],
-        legend=alt.Legend(title='Characters', orient='bottom')).properties(height=500,width=1400).interactive()
+        ).properties(height=500,width=1400).interactive()
 
     # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
     #         x='start', x2='stop',
