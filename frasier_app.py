@@ -127,7 +127,7 @@ main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterTy
 main_ch_names = list(main_ch['characterName'].unique())
 recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
 recur_ch_names = list(recur_ch['characterName'].unique())
-
+print(recur_ch_names)
 with st.container():
 
     col1a, col2a, col3a, col4a, col5a, col6a, col7a, col8a = st.columns(8)
