@@ -125,7 +125,7 @@ st.subheader("Here, you can view information by character in a given season.")
 
 main_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'main').dropna()
 main_ch_names = list(main_ch['characterName'].unique())
-recur_ch = df_frasier_characterwords.where(df_frasier_characterwords['characterType'] == 'recurring').dropna()
+recur_ch = df_frasier_characterwords.loc(df_frasier_characterwords['characterType'] == 'recurring')
 recur_ch_names = list(recur_ch['characterName'].unique())
 
 with st.container():
@@ -135,7 +135,7 @@ with st.container():
     with col1a:
         ch_select = st.selectbox(
                 "Select a main character:",
-                (main_ch_names + recur_ch_names)
+                (main_ch_names)
         )
 
     with col2a:
@@ -222,7 +222,7 @@ with st.container():
 
     with col1aa:
         ch_options = st.multiselect('Select as many characters as you please',
-        main_ch_names + recur_ch_names,['Frasier Crane'])
+        (main_ch_names + recur_ch_names),['Frasier Crane'])
     
     with col3aa:
         kde_plot = st.checkbox("View a smoothed plot with the rolling mean")
