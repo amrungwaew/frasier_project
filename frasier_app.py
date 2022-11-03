@@ -236,36 +236,37 @@ with st.container():
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-    seasons_rect = pd.DataFrame({
-        'start': [0,24,48,72,96,120,144,168,192,216,240,264],
-        'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
-        })
+    # seasons_rect = pd.DataFrame({
+    #     'start': [0,24,48,72,96,120,144,168,192,216,240,264],
+    #     'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
+    #     })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='set3'),legend=alt.Legend(
+        color=alt.Color('characterName',scale=alt.Scale(scheme='pastel1'),legend=alt.Legend(
         title='Characters')),
         tooltip=['total_words','title'],
         ).properties(height=500,width=1400)
 
-    areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
-            x='start', x2='stop',
-            color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow')
-            )).properties(height=500,width=1400)
+    # areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
+    #         x='start', x2='stop',
+    #         color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
+    #         legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
 
-    (areas + ch_show_plot).resolve_scale(color='independent')
+    ch_show_plot
 
     if kde_plot:
 
         # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
 
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
-            rolling_mean='mean(total_words)',frame=[-2,2]).encode(
+            rolling_mean='mean(total_words)',frame=[-1,4]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
-            color=alt.Color('characterName',scale=alt.Scale(scheme='set2')),
+            color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+            title='Characters', orient='bottom')),
             tooltip=['total_words','title']).properties(
             height=500,width=1400)
 
-        (areas + smooth_plot).resolve_scale(color='independent')
+        smooth_plot
