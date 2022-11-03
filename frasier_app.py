@@ -266,7 +266,7 @@ with st.container():
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
             color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
             title='Characters', orient='bottom')),
-            tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
+            tooltip=['total_words','title']).properties(
             height=500,width=1400)
 
         areas + smooth_plot
