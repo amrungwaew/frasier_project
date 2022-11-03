@@ -258,8 +258,10 @@ with st.container():
 
     if kde_plot:
 
+        # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
+
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
-            rolling_mean='mean(total_words)').encode(
+            rolling_mean='mean(total_words)',frame=[-24, 0]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y='The rolling mean:Q',
             color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
