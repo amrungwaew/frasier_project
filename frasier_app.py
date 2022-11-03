@@ -238,7 +238,7 @@ with st.container():
     #     'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
     #     })
 
-    ch_show_plot = alt.Chart(df_selection_show).mark_line(ls=15).encode(
+    ch_show_plot = alt.Chart(df_selection_show).mark_line().encode(
         x=alt.X('season', axis=alt.Axis(title='Seasons',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
