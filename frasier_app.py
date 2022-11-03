@@ -208,7 +208,6 @@ with st.container():
                 legend=alt.Legend(title='Characters', orient='bottom')),
                 tooltip=['title','total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(width=450).interactive()
-            st.title("I know this smoothing is terrible and tricky due to such a high variance in number and appearance.")
             df_chrec_season_combo_plot
 
 
@@ -259,6 +258,7 @@ with st.container():
     if kde_plot:
 
         # smooth = df_selection_show['total_words'].rolling(window=5, win_type='gaussian', center=True).mean(std=0.5)
+        st.caption("I know this smoothing is terrible and tricky due to such a high variance in number and appearance.")
 
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
             rolling_mean='mean(total_words)',frame=[-4,4]).encode(
