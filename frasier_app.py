@@ -254,7 +254,7 @@ with st.container():
             color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
             legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
 
-    (areas + ch_show_plot).resolve_scale(color='independent')
+    alt.layer(areas,ch_show_plot).resolve_scale(color='independent')
 
     if kde_plot:
 
