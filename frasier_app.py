@@ -254,7 +254,7 @@ with st.container():
             color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
             legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    (areas + ch_show_plot).configure_view(strokeWidth=0).properties(height=500,width=1400).interactive()
+    (areas + ch_show_plot).properties(height=500,width=1400).interactive()
 
     if kde_plot:
 
