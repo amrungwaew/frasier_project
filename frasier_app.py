@@ -242,8 +242,7 @@ with st.container():
         x=alt.X('season', axis=alt.Axis(title='Seasons',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
-        legend=alt.Legend(title='Characters', orient='bottom')),
-        tooltip=['title','total_words','actorName','gender']).properties(height=500,width=1400).interactive()
+        legend=alt.Legend(title='Characters', orient='bottom')).properties(height=500,width=1400).interactive()
 
     # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
     #         x='start', x2='stop',
