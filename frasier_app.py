@@ -182,7 +182,7 @@ with st.container():
                     point=alt.OverlayMarkDef(size=50),width=10).encode(
                     x=alt.X('episode', axis=alt.Axis(title='Episodes',grid=False)),
                     y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-                    color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
+                    color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),
                     legend=alt.Legend(title='Characters', orient='bottom')),
                     tooltip=['title','total_words','actorName','gender']
                     ).configure_view(strokeWidth=0).properties(width=450).interactive()
@@ -244,7 +244,7 @@ with st.container():
     ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='sinebow'),legend=alt.Legend(
+        color=alt.Color('characterName',scale=alt.Scale(scheme='rainbow'),legend=alt.Legend(
         title='Characters')),
         tooltip=['total_words','title'],
         ).configure_view(strokeWidth=0).properties(height=500,width=1400)
@@ -264,7 +264,7 @@ with st.container():
             rolling_mean='mean(total_words)',frame=[-4,4]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
-            color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+            color=alt.Color('characterName',scale=alt.Scale(scheme='turbo'),legend=alt.Legend(
             title='Characters', orient='bottom')),
             tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
             height=500,width=1400)
