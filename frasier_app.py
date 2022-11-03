@@ -224,6 +224,9 @@ with st.container():
         ch_options = st.multiselect('Select as many characters as you please',
         main_ch_names + recur_ch_names,['Frasier Crane'])
     
+    with col3aa:
+        kde_plot = st.checkbox("View a smoothed kernal plot instead.")
+
     def get_ch_show(char):
         '''selecting the entries matching the character name'''
         return df_frasier_characterwords.loc[df_frasier_characterwords['characterName'] == char]
@@ -253,6 +256,18 @@ with st.container():
 
     ch_show_plot
 
+    if kde_plot:
+
+        smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(rolling_mean='mean(total_words)',
+        frame=[-9, 0]).encode(
+            x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
+            y='The rolling mean',
+            color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+            title='Characters', orient='bottom')),
+            tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
+            height=500,width=1400).interactive()
+
+        smooth_plot
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
 
