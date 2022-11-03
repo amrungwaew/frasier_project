@@ -208,7 +208,7 @@ with st.container():
                 legend=alt.Legend(title='Characters', orient='bottom')),
                 tooltip=['title','total_words','actorName','gender']
                 ).configure_view(strokeWidth=0).properties(width=450).interactive()
-            
+            st.title("I know this smoothing is terrible and tricky due to such a high variance in number and appearance.")
             df_chrec_season_combo_plot
 
 
