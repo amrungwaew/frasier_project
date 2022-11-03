@@ -262,7 +262,7 @@ with st.container():
 
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
             rolling_mean='mean(total_words)',frame=[-4,0]).encode(
-            x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
+            x=alt.X('episodeCountLO', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
             y=alt.Y('rolling_mean:Q',axis=alt.Axis(title='The rolling mean')),
             color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
             title='Characters', orient='bottom')),
