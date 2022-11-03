@@ -135,7 +135,7 @@ with st.container():
     with col1a:
         ch_select = st.selectbox(
                 "Select a main character:",
-                (main_ch_names)
+                (main_ch_names + recur_ch_names)
         )
 
     with col2a:
@@ -251,7 +251,7 @@ with st.container():
 
     areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.3).encode(
             x='start', x2='stop',
-            color=alt.Color('index:N',scale=alt.Scale(scheme='rainbow'),
+            color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
             legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
 
     areas + ch_show_plot
@@ -267,9 +267,9 @@ with st.container():
             color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
             title='Characters', orient='bottom')),
             tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
-            height=500,width=1400).interactive()
+            height=500,width=1400)
 
-        smooth_plot
+        areas + smooth_plot
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
 
