@@ -239,7 +239,7 @@ with st.container():
     #     })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line().encode(
-        x=alt.X('season', axis=alt.Axis(title='Seasons',grid=False)),
+        x=alt.X('episodeCount', axis=alt.Axis(title='Episodes',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),
         legend=alt.Legend(title='Characters', orient='bottom'))).properties(height=500,width=1400).interactive()
