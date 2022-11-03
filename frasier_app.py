@@ -254,7 +254,9 @@ with st.container():
             color=alt.Color('index:N',scale=alt.Scale(scheme='rainbow'),
             legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    (areas + ch_show_plot).properties(height=500,width=1400)
+    combo = alt.layer(areas,ch_show_plot)
+    combo.properties(height=500,width=1400)
+    combo
 
     if kde_plot:
 
