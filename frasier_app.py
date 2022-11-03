@@ -254,7 +254,7 @@ with st.container():
             color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
             legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
 
-    (areas + ch_show_plot).resolve_scale(x='independent')
+    (areas + ch_show_plot).resolve_scale(color='independent')
 
     if kde_plot:
 
@@ -269,4 +269,4 @@ with st.container():
             tooltip=['total_words','title']).properties(
             height=500,width=1400)
 
-        (areas + smooth_plot).resolve_scale(x='independent')
+        (areas + smooth_plot).resolve_scale(color='independent')
