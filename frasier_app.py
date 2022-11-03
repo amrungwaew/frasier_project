@@ -244,7 +244,7 @@ with st.container():
     ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
         y=alt.Y('total_words',axis=alt.Axis(title='Total number of words')),
-        color=alt.Color('characterName',scale=alt.Scale(scheme='pastel1'),legend=alt.Legend(
+        color=alt.Color('characterName',scale=alt.Scale(scheme='set3'),legend=alt.Legend(
         title='Characters')),
         tooltip=['total_words','title'],
         ).properties(height=500,width=1400)
@@ -254,7 +254,7 @@ with st.container():
             color=alt.Color('index:N',scale=alt.Scale(scheme='sinebow'),
             legend=alt.Legend(title='Seasons'))).properties(height=500,width=1400)
 
-    areas + ch_show_plot
+    (areas + ch_show_plot).resolve_scale(x='independent')
 
     if kde_plot:
 
@@ -269,4 +269,4 @@ with st.container():
             tooltip=['total_words','title']).properties(
             height=500,width=1400)
 
-        areas + smooth_plot
+        (areas + smooth_plot).resolve_scale(x='independent')
