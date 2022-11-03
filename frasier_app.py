@@ -225,7 +225,7 @@ with st.container():
         main_ch_names + recur_ch_names,['Frasier Crane'])
     
     with col3aa:
-        kde_plot = st.checkbox("View a smoothed plot instead.",key='smoothed')
+        kde_plot = st.checkbox("View a smoothed plot instead")
 
     def get_ch_show(char):
         '''selecting the entries matching the character name'''
