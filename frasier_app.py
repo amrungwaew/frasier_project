@@ -263,13 +263,13 @@ with st.container():
         smooth_plot = alt.Chart(df_selection_show).mark_line().transform_window(
             rolling_mean='mean(total_words)',frame=[-24, 0]).encode(
             x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
-            y='The rolling mean:Q',
-            color=alt.Color('characterName:O',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
-            title='Characters', orient='bottom')),
-            tooltip=['total_words','title']).configure_view(strokeWidth=0).properties(
-            height=500,width=1400).interactive()
+            y='The rolling mean:Q').configure_view(strokeWidth=0).properties(
+            height=500,width=1400)
 
         smooth_plot
+
+        # color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
+        #    title='Characters', orient='bottom')),
     # with col1aa:
     #     gender_select = st.checkbox("I would like to view across-show statistics categorically",key='cat')
 
