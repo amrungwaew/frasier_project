@@ -251,10 +251,9 @@ with st.container():
 
     areas = alt.Chart(seasons_rect.reset_index()).mark_rect(opacity=0.1).encode(
             x='start', x2='stop',
-            color=alt.Color('index:N',scale=alt.Scale(scheme='rainbow'),
-            legend=alt.Legend(title='Seasons', orient='bottom')))
+            color='index:N')
 
-    (areas + ch_show_plot).interactive()
+    (areas + ch_show_plot)
 
     if kde_plot:
 
