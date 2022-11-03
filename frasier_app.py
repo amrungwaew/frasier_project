@@ -225,7 +225,7 @@ with st.container():
         main_ch_names + recur_ch_names,['Frasier Crane'])
     
     with col3aa:
-        kde_plot = st.checkbox("View a smoothed plot instead")
+        kde_plot = st.checkbox("View a smoothed plot with the rolling mean")
 
     def get_ch_show(char):
         '''selecting the entries matching the character name'''
@@ -236,10 +236,10 @@ with st.container():
     for person in ch_options:
         df_selection_show = pd.concat([df_selection_show, get_ch_show(person)])
 
-    # seasons_rect = pd.DataFrame({
-    #     'start': [0,24,48,72,96,120,144,168,192,216,240,264],
-    #     'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
-    #     })
+    seasons_rect = pd.DataFrame({
+        'start': [0,24,48,72,96,120,144,168,192,216,240,264],
+        'stop': [24,48,72,96,120,144,168,192,216,240,264,288]
+        })
 
     ch_show_plot = alt.Chart(df_selection_show).mark_line(point=alt.OverlayMarkDef(size=30),width=5).encode(
         x=alt.X('episodeCount', axis=alt.Axis(title='Episodes by cumulative count',grid=False)),
@@ -247,14 +247,14 @@ with st.container():
         color=alt.Color('characterName',scale=alt.Scale(scheme='set2'),legend=alt.Legend(
         title='Characters', orient='bottom')),
         tooltip=['total_words','title'],
-        ).configure_view(strokeWidth=0).properties(height=500,width=1400).interactive()
+        )
 
-    # areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
-    #         x='start', x2='stop',
-    #         color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
-    #         legend=alt.Legend(title='Seasons', orient='bottom')))
+    areas = alt.Chart(seasons_rect).mark_rect(opacity=0.1).encode(
+            x='start', x2='stop',
+            color=alt.Color('stop',scale=alt.Scale(scheme='rainbow'),
+            legend=alt.Legend(title='Seasons', orient='bottom')))
 
-    ch_show_plot
+    (areas + ch_show_plot).configure_view(strokeWidth=0).properties(height=500,width=1400).interactive()
 
     if kde_plot:
 
