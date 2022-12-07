@@ -481,7 +481,7 @@ with tab2:
                     'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
 
     best_fit_results = pd.DataFrame.from_dict(
-        default_dict, orient='index')
+        default_dict)
 
     st.table(best_fit_results)
 
