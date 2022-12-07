@@ -23,7 +23,6 @@ st.set_page_config(
 )
 
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
-
 df_frasier = pd.read_csv('tidyTranscripts.csv')
 
 tab1, tab2 = st.tabs(["Visual data exploration", "Applying the data"])
@@ -412,14 +411,19 @@ automl.fit(X_train=X_train_scaled, y_train=y_train,
            **automl_settings)
 
 # Save the model
+
 with open("automl.pkl", "wb") as f:
     pickle.dump(automl, f, pickle.HIGHEST_PROTOCOL)
 
 
 with tab2:
 
+    @st.cache
+    def load_model():
+        return pickle.load(f)
+
     with open("automl.pkl", "rb") as f:
-        automl = pickle.load(f)
+        automl = load_model()
     pred = automl.predict(X_test_scaled)
 
     rate_compare = season_11_y_test.reindex(
