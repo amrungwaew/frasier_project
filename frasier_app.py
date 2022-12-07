@@ -91,13 +91,13 @@ with tab1:
 
     rating_avg = []
     for i in range(1, 12):
-        rating_avg.append(mean(df_frasier_totalwords['imdbRatings'].loc(
-            df_frasier_totalwords['season'] == i)))
+        rating_avg.append(mean(df_frasier_totalwords['imdbRatings'].where(
+            df_frasier_totalwords['season'] == i).dropna()))
 
     viewing_avg = []
     for i in range(1, 12):
-        viewing_avg.append(mean(df_frasier_totalwords['viewershipInMillions'].loc(
-            df_frasier_totalwords['season'] == i)))
+        viewing_avg.append(mean(df_frasier_totalwords['viewershipInMillions'].where(
+            df_frasier_totalwords['season'] == i).dropna()))
 
     df_frasier_totalwords['rating_avg'] = pd.Series(
         [round(num, 2) for num in rating_avg])
