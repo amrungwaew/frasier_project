@@ -436,8 +436,7 @@ with tab2:
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
         color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
         column=alt.Column('episodeCount:N',
-                          axis=alt.Axis(axisWidth=1.0, offset=-
-                                        8.0, orient='bottom'),
+                          axis=alt.Axis(orient='bottom'),
                           scale=alt.Scale(padding=4.0)),
         tooltip=['imdbRatings']
     ).configure_view(strokeWidth=0).properties(width=50)
