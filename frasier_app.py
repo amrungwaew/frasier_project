@@ -448,6 +448,7 @@ with tab2:
         x=alt.X('episodeCount:O', axis=alt.Axis(
             title='Episode count')),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        color='type:N'
     )
 
     # st.subheader(
