@@ -428,6 +428,8 @@ with tab2:
         season_11_y_test['imdbRatings'], pred)
     rate_compare['type'] = np.append(
         np.tile('Actual', 24), np.tile('Predicted', 24))
+    rate_compare.index.name = 'episodeCount'
+    rate_compare = rate_compare.reset_index()
 
     # X_pred_info = pd.DataFrame()
     # X_pred_info['Features'] = automl.feature_names_in_
@@ -441,8 +443,8 @@ with tab2:
     #         title='Characters')),
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
-    actual_chart = alt.Chart(rate_compare.reset_index()).mark_bar().encode(
-        x=alt.X('index', axis=alt.Axis(
+    actual_chart = alt.Chart(rate_compare).mark_bar().encode(
+        x=alt.X('episodeCount', axis=alt.Axis(
             title='Episode count', grid=False)),
         y=alt.Y('predicted', axis=alt.Axis(title='Rating')),
         column='type:N',
