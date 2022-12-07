@@ -447,8 +447,7 @@ with tab2:
         x=alt.X('episodeCount', axis=alt.Axis(
             title='Episode count', grid=False)),
         y=alt.Y('predicted', axis=alt.Axis(title='Rating')),
-        column='type:N'
-    ).configure_facet_cell(strokeWidth=0.0,)
+        column='type:N')
 
     # st.subheader(
     #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
