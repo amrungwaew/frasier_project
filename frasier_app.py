@@ -447,11 +447,10 @@ with tab2:
         x=alt.X('episodeCount', axis=alt.Axis(
             title='Episode count', grid=False)),
         y=alt.Y('predicted', axis=alt.Axis(title='Rating')),
-        column='type:N',
-        color=alt.Color('type', scale=alt.Scale(scheme='rainbow')),
-    ).configure_view(strokeWidth=0).properties(height=500, width=1400)
+        column='type:N'
+    ).configure_facet_cell(strokeWidth=0.0,)
 
-    st.subheader(
-        "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
+    # st.subheader(
+    #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
 
     actual_chart
