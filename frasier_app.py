@@ -432,11 +432,13 @@ with tab2:
     rate_compare = rate_compare.reset_index()
 
     actual_chart = alt.Chart(rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+        x=alt.X('type:N', axis=False),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
         color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
         column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom')),
+                          axis=alt.Axis(axisWidth=1.0, offset=-
+                                        8.0, orient='bottom'),
+                          scale=alt.Scale(padding=4.0)),
         tooltip=['imdbRatings']
     ).configure_view(strokeWidth=0).properties(width=50)
 
