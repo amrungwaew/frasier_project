@@ -418,6 +418,7 @@ with open("automl.pkl", "wb") as f:
 
 with tab2:
 
+    # in order to try to cut down on memory usage per Streamlit's documentation on resource limits...
     @st.cache
     def load_model():
         return pickle.load(f)
@@ -452,11 +453,12 @@ with tab2:
     st.subheader(
         "The impact of all features used by the model to predict IMDB rating.")
 
-    X_pred_info = pd.DataFrame()
-    X_pred_info['Features'] = automl.feature_names_in_
-    X_pred_info['Importances'] = automl.feature_importances_
+    X_feat_imps_info = pd.DataFrame()
+    X_feat_imps_info['Features'] = automl.feature_names_in_
+    X_feat_imps_info['Importances'] = automl.feature_importances_
+    X_feat_imps_info_filtered = X_feat_imps_info[X_feat_imps_info['Importances'] != 0]
 
-    feat_imps_chart = alt.Chart(X_pred_info).mark_bar().encode(
+    feat_imps_chart = alt.Chart(X_feat_imps_info_filtered).mark_bar().encode(
         x=alt.X('Importances', axis=alt.Axis(
             title='Impact', grid=False)),
         y=alt.Y('Features', axis=alt.Axis(title='Features')),
