@@ -444,13 +444,11 @@ with tab2:
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
     actual_chart = alt.Chart(rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=alt.Axis(
-            title='Episode count', grid=False)),
+        x=alt.X('type:N', axis=False, title='Episode'),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
-            title='Type')),
-        column=alt.Column('episodeCount:N', header=alt.Header(
-            "Episodes", orient='bottom')),
+        color='type:N',
+        column=alt.Column('episodeCount:N',
+                          header=alt.Header(orient='bottom')),
         tooltip=['imdbRatings']
     ).configure_view(strokeWidth=0).properties(width=50)
 
