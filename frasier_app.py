@@ -70,8 +70,8 @@ with tab1:
         '''this is simply summing the words in a given season and returning as list'''
         sums = []
         for i in range(1, 12):
-            ss = sum(df_frasier_totalwords.loc(
-                df_frasier_totalwords['season'] == i)['total_words'])
+            ss = sum(df_frasier_totalwords.where(
+                df_frasier_totalwords['season'] == i).dropna()['total_words'])
             sums.append(ss)
         return sums
 
