@@ -464,6 +464,7 @@ with tab2:
         y=alt.Y('Features', axis=alt.Axis(title='Features')),
         color=alt.Color('Features', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
             title='Features')),
+        tooltip=['Importances']
     ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
     feat_imps_chart
