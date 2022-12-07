@@ -440,9 +440,9 @@ with tab2:
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
         color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
         column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom'),
-                          tooltip=['imdbRatings']
-                          )).configure_view(strokeWidth=0).properties(width=50)
+                          header=alt.Header(orient='bottom')),
+        tooltip=['imdbRatings']
+    ).configure_view(strokeWidth=0).properties(width=50)
 
     # st.subheader(
     #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
