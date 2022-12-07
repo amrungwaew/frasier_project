@@ -8,7 +8,7 @@ import altair as alt
 import streamlit as st
 
 # Imports for ML
-from signal import signal, SIGPIPE, SIG_DFL
+# from signal import signal, SIGPIPE, SIG_DFL
 import pickle
 import numpy as np
 from flaml import AutoML
@@ -283,7 +283,7 @@ with tab1:
 ### TRAINING ML ###
 
 # sourced from Stack Overflow; to stop exceptions so ML can complete training without raising errors
-signal(SIGPIPE, SIG_DFL)
+# signal(SIGPIPE, SIG_DFL)
 
 # Characters df
 characters_df = df_frasier
