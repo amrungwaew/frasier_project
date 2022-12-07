@@ -441,7 +441,7 @@ with tab2:
     #         title='Characters')),
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
-    actual_chart = alt.Chart(rate_compare).mark_ba().encode(
+    actual_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('episodeCount', axis=alt.Axis(
             title='Episode count', grid=False)),
         y=alt.Y('predicted', axis=alt.Axis(title='Rating')),
