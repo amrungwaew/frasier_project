@@ -437,20 +437,19 @@ with tab2:
     rate_compare.index.name = 'episodeCount'
     rate_compare = rate_compare.reset_index()
 
-    def compare_ratings(data):
-        return alt.Chart(data).mark_bar().encode(
-            x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
-            column=alt.Column('episodeCount:N',
-                              header=alt.Header(orient='bottom')),
-            tooltip=['imdbRatings']
-        ).configure_view(strokeWidth=0).properties(width=50)
+    auto_chart = alt.Chart(rate_compare).mark_bar().encode(
+        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+        column=alt.Column('episodeCount:N',
+                          header=alt.Header(orient='bottom')),
+        tooltip=['imdbRatings']
+    ).configure_view(strokeWidth=0).properties(width=50)
 
     st.subheader(
         "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
 
-    compare_ratings(rate_compare)
+    auto_chart
 
     st.subheader(
         "The non-zero importance of features used by the model to predict IMDB rating.")
@@ -534,17 +533,30 @@ with tab2:
     choice_rate_compare.index.name = 'episodeCount'
     choice_rate_compare = rate_compare.reset_index()
 
-    compare_ratings(rate_compare)
+    choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
+        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+        column=alt.Column('episodeCount:N',
+                          header=alt.Header(orient='bottom')),
+        tooltip=['imdbRatings']
+    ).configure_view(strokeWidth=0).properties(width=50)
 
-    chosen_mod = pd.DataFrame.from_dict({'Best R2 on validation data:': 1-chosen_ml.best_loss,
-                                         'Training duration of best run:': chosen_ml.best_config_train_time})
-    
-    chosen_gen = pd.DataFrame.from_dict(
-            {'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred,
-                                                   season_11_y_test['imdbRatings'])),
-             'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
-             'MAE:': sklearn_metric_loss_score('mae', choice_pred,
-                                               season_11_y_test['imdbRatings'])})
+    st.subheader(
+        "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
+
+    choice_auto_chart
+
+    choice_default_mod_dict = {'Best R2 on validation data:': 1-chosen_ml.best_loss,
+                               'Training duration of best run:': chosen_ml.best_config_train_time}
+
+    choice_default_gen_dict = {'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred,
+                                                                     season_11_y_test['imdbRatings'])),
+                               'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
+                               'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
+
+    choice_default_mod = pd.DataFrame.from_dict(choice_default_mod_dict)
+    choice_default_gen = pd.DataFrame.from_dict(choice_default_gen_dict)
 
     with col3e:
         st.write("Based on your choices, this was the best-fitting model found:")
@@ -555,10 +567,10 @@ with tab2:
         print(chosen_ml.best_config)
     with col5e:
         st.write("...and this was the resulting R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-        st.table(chosen_mod)
+        st.table(choice_default_mod)
     with col6e:
         st.write("More generally, here is the overall R2, MSE, and MAE:")
-        st.table(chosen_gen)
+        st.table(choice_default_gen)
 
     # write_list = set(df_frasier['writtenBy'])
     # direct_list = set(df_frasier['directedBy'])
