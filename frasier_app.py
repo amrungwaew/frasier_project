@@ -456,7 +456,7 @@ with tab2:
     X_pred_info['Features'] = automl.feature_names_in_
     X_pred_info['Importances'] = automl.feature_importances_
 
-    feat_imps_chart = alt.Chart(X_pred_info).mark_bar.encode(
+    feat_imps_chart = alt.Chart(X_pred_info).mark_bar().encode(
         x=alt.X('Importances', axis=alt.Axis(
             title='Impact', grid=False)),
         y=alt.Y('Features', axis=alt.Axis(title='Features')),
