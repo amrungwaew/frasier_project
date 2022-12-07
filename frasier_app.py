@@ -485,4 +485,9 @@ with tab2:
 
     st.table(best_fit_results)
 
-    st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit.")
+    st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to all of the non-zero ones, as shown in plot above.")
+
+    imp_feats = list(X_feat_imps_info_filtered['Features'])
+
+    feature_choices = st.multiselect(
+        'Select the features you would like to include in training a better model:', imp_feats, ['Roz_Doyle'])
