@@ -431,6 +431,20 @@ with tab2:
     rate_compare.index.name = 'episodeCount'
     rate_compare = rate_compare.reset_index()
 
+    actual_chart = alt.Chart(rate_compare).mark_bar().encode(
+        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+        column=alt.Column('episodeCount:N',
+                          header=alt.Header(orient='bottom')),
+        tooltip=['imdbRatings']
+    ).configure_view(strokeWidth=0).properties(width=50)
+
+    # st.subheader(
+    #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
+
+    actual_chart
+
     # X_pred_info = pd.DataFrame()
     # X_pred_info['Features'] = automl.feature_names_in_
     # X_pred_info['Importances'] = automl.feature_importances_
@@ -442,17 +456,3 @@ with tab2:
     #     color=alt.Color('characterName', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
     #         title='Characters')),
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
-
-    actual_chart = alt.Chart(rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=False),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color='type:N',
-        column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom')),
-        tooltip=['imdbRatings']
-    ).configure_view(strokeWidth=0).properties(width=50)
-
-    # st.subheader(
-    #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
-
-    actual_chart
