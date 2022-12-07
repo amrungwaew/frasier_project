@@ -517,6 +517,11 @@ with tab2:
                   **automl_settings)
     with open("automl.pkl", "wb") as f:
         pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
+
+    @st.cache
+    def load_model():
+        return pickle.load(f)
+
     with open("automl.pkl", "rb") as f:
         chosen_ml = load_model()
     choice_pred = chosen_ml.predict(X_test_scaled[feature_choices])
