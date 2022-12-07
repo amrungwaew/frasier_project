@@ -444,19 +444,24 @@ with tab2:
         tooltip=['imdbRatings']
     ).configure_view(strokeWidth=0).properties(width=50)
 
-    # st.subheader(
-    #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
+    st.subheader(
+        "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
 
     actual_chart
 
-    # X_pred_info = pd.DataFrame()
-    # X_pred_info['Features'] = automl.feature_names_in_
-    # X_pred_info['Importances'] = automl.feature_importances_
+    st.subheader(
+        "The impact of all features used by the model to predict IMDB rating.")
 
-    # auto_chart = alt.Chart(X_pred_info).mark_bar.encode(
-    #     x=alt.X('Features', axis=alt.Axis(
-    #         title='Features', grid=False)),
-    #     y=alt.Y('Importances', axis=alt.Axis(title='Impacts')),
-    #     color=alt.Color('characterName', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
-    #         title='Characters')),
-    # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
+    X_pred_info = pd.DataFrame()
+    X_pred_info['Features'] = automl.feature_names_in_
+    X_pred_info['Importances'] = automl.feature_importances_
+
+    feat_imps_chart = alt.Chart(X_pred_info).mark_bar.encode(
+        x=alt.X('Importances', axis=alt.Axis(
+            title='Impact', grid=False)),
+        y=alt.Y('Features', axis=alt.Axis(title='Features')),
+        color=alt.Color('Features', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
+            title='Features')),
+    ).configure_view(strokeWidth=0).properties(height=500, width=1400)
+
+    feat_imps_chart
