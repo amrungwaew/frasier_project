@@ -446,7 +446,7 @@ with tab2:
     actual_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('episodeCount', axis=alt.Axis(
             title='Episode count', grid=False)),
-        y=alt.Y('predicted', axis=alt.Axis(title='Rating')),
+        y=alt.Y('imdbRatings', axis=alt.Axis(title='Rating')),
         column='type:N')
 
     # st.subheader(
