@@ -447,8 +447,11 @@ with tab2:
         x=alt.X('type:N', axis=alt.Axis(
             title='Episode count', grid=False)),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color='type:N',
-        column=alt.Column('episodeCount:N', header=alt.Header(orient='bottom'))
+        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
+            title='Type')),
+        column=alt.Column('episodeCount:N', header=alt.Header(
+            "Episodes", orient='bottom')),
+        tooltip=['imdbRatings']
     ).configure_view(strokeWidth=0).properties(width=50)
 
     # st.subheader(
