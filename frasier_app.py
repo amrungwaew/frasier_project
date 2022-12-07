@@ -26,7 +26,8 @@ st.header("Welcome to Anna's web app project that lets you look at information e
 
 df_frasier = pd.read_csv('tidyTranscripts.csv')
 
-tab1, tab2 = st.tabs(["Visual data exploration", "Applying the data"])
+tab1, tab2 = st.tabs(
+    [st.header("Visual data exploration"), st.header("Applying the data")])
 
 ###### TAB ONE #######
 
