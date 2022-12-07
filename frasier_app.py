@@ -64,7 +64,7 @@ with tab1:
     # functions to get the season and episode info
     def get_season(season):
         '''selecting the entries matching the season selected'''
-        return df_frasier_totalwords.where(df_frasier_totalwords['season'] == season).dropna()
+        return df_frasier_totalwords.loc(df_frasier_totalwords['season'] == season)
 
     def get_season_words():
         '''this is simply summing the words in a given season and returning as list'''
