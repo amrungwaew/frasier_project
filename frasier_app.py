@@ -472,16 +472,17 @@ with tab2:
 
     # Getting model stats and info both for best fit and in general
 
-    default_dict = {'The full model that was found as the best fit': automl.model.estimator,
-                    'Best hyperparmeter config': automl.best_config,
-                    'Best r2 on validation data': 1-automl.best_loss,
-                    'Training duration of best run': automl.best_config_train_time,
-                    'R2': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
-                    'MSE': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
-                    'MAE': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
+    default_dict = {'The full model that was found as the best fit:': automl.model.estimator,
+                    'Best hyperparmeter config:': automl.best_config,
+                    'Best r2 on validation data:': 1-automl.best_loss,
+                    'Training duration of best run:': automl.best_config_train_time,
+                    'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
+                    'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
+                    'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
 
-    best_fit_results = pd.DataFrame.from_dict(default_dict, orient='index')
+    best_fit_results = pd.DataFrame.from_dict(
+        default_dict, orient='index', columns='Result')
 
     st.table(best_fit_results)
 
-    st.write("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit!")
+    st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit.")
