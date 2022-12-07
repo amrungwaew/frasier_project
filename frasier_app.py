@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import altair as alt
 import streamlit as st
+from PIL import Image
 
 # Imports for ML
 # from signal import signal, SIGPIPE, SIG_DFL
@@ -22,6 +23,9 @@ st.set_page_config(
     # configuring layout to be wide (as opposed to centred) to to take up more screen space
     layout='wide'
 )
+
+header = Image.open('header.jpeg')
+st.image(header)
 
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
 df_frasier = pd.read_csv('tidyTranscripts.csv')
@@ -483,106 +487,93 @@ with tab2:
     best_fit_results = pd.DataFrame.from_dict(
         default_dict)
 
-    col1e, col2e, col3e, col4e, col5e, col6e, col7e, col8e = st.columns(8)
+    col1e, col2e, col3e, col4e = st.columns(4)
 
-    with col3e:
+    with col1e:
         st.write("This was the best-fitting model found:")
         print(automl.model.estimator)
-    with col4e:
+    with col2e:
         st.write("This is the best hyperparameter configuration for the model:")
         print(automl.best_config)
-    with col5e:
+    with col3e:
         st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
         st.table(best_fit_results)
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
-    imp_feats = list(X_feat_imps_info_filtered['Features'])
+    # imp_feats = list(X_feat_imps_info_filtered['Features'])
 
-    with col2e:
-        feature_choices = st.multiselect(
-            'Select the features you would like to include in training a better model:', imp_feats, ['Roz_Doyle'])
+    # with col1e:
+    #     feature_choices = st.multiselect(
+    #         'Select the features you would like to include in training a better model:', imp_feats, ['Roz_Doyle'])
 
-    choice_X_train = X_train_scaled[feature_choices]
-    chosen_ml = AutoML()
-    # automl_settings = {
-    #     "time_budget": 1,
-    #     "metric": 'accuracy',
-    #     "task": 'classification',
-    #     "log_file_name": "frasier.log",
-    # }
+    # choice_X_train = X_train_scaled[feature_choices]
+    # chosen_ml = AutoML()
+    # # automl_settings = {
+    # #     "time_budget": 1,
+    # #     "metric": 'accuracy',
+    # #     "task": 'classification',
+    # #     "log_file_name": "frasier.log",
+    # # }
 
-    # Train with labeled input data
-    chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
-                  **automl_settings)
-    with open("automl.pkl", "wb") as f:
-        pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
+    # # Train with labeled input data
+    # chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
+    #               **automl_settings)
+    # with open("automl.pkl", "wb") as f:
+    #     pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
 
-    @st.cache
-    def load_model():
-        return pickle.load(f)
+    # @st.cache
+    # def load_model():
+    #     return pickle.load(f)
 
-    with open("automl.pkl", "rb") as f:
-        chosen_ml = load_model()
-    choice_pred = chosen_ml.predict(X_test_scaled[feature_choices])
+    # with open("automl.pkl", "rb") as f:
+    #     chosen_ml = load_model()
+    # choice_pred = chosen_ml.predict(X_test_scaled[feature_choices])
 
-    choice_rate_compare = season_11_y_test.reindex(
-        list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
-    choice_rate_compare['imdbRatings'] = np.append(
-        season_11_y_test['imdbRatings'], pred)
-    choice_rate_compare['type'] = np.append(
-        np.tile('Actual', 24), np.tile('Predicted', 24))
-    choice_rate_compare.index.name = 'episodeCount'
-    choice_rate_compare = rate_compare.reset_index()
+    # choice_rate_compare = season_11_y_test.reindex(
+    #     list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
+    # choice_rate_compare['imdbRatings'] = np.append(
+    #     season_11_y_test['imdbRatings'], pred)
+    # choice_rate_compare['type'] = np.append(
+    #     np.tile('Actual', 24), np.tile('Predicted', 24))
+    # choice_rate_compare.index.name = 'episodeCount'
+    # choice_rate_compare = rate_compare.reset_index()
 
-    choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
-        column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom')),
-        tooltip=['imdbRatings']
-    ).configure_view(strokeWidth=0).properties(width=50)
+    # choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
+    #     x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+    #     y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+    #     color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+    #     column=alt.Column('episodeCount:N',
+    #                       header=alt.Header(orient='bottom')),
+    #     tooltip=['imdbRatings']
+    # ).configure_view(strokeWidth=0).properties(width=50)
 
-    st.subheader(
-        "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
+    # st.subheader(
+    #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
 
-    choice_auto_chart
+    # choice_auto_chart
 
-    choice_dict = {'The full model that was found as the best fit:': chosen_ml.model.estimator,
-                   'Best hyperparmeter config:': chosen_ml.best_config,
-                   'Best r2 on validation data:': 1-chosen_ml.best_loss,
-                   'Training duration of best run:': chosen_ml.best_config_train_time,
-                   'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings'])),
-                   'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
-                   'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
+    # choice_dict = {'The full model that was found as the best fit:': chosen_ml.model.estimator,
+    #                'Best hyperparmeter config:': chosen_ml.best_config,
+    #                'Best r2 on validation data:': 1-chosen_ml.best_loss,
+    #                'Training duration of best run:': chosen_ml.best_config_train_time,
+    #                'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings'])),
+    #                'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
+    #                'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
 
-    choice_fit_results = pd.DataFrame.from_dict(
-        choice_dict)
+    # choice_fit_results = pd.DataFrame.from_dict(
+    #     choice_dict)
 
-    with col3e:
-        st.write("Based on your choices, this was the best-fitting model found:")
-        print(chosen_ml.model.estimator)
-    with col4e:
-        st.write(
-            "Based on your choices, this is the best hyperparameter configuration for the model:")
-        print(chosen_ml.best_config)
-    with col5e:
-        st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-        st.table(choice_fit_results)
+    # with col2e:
+    #     st.write("Based on your choices, this was the best-fitting model found:")
+    #     print(chosen_ml.model.estimator)
+    # with col3e:
+    #     st.write(
+    #         "Based on your choices, this is the best hyperparameter configuration for the model:")
+    #     print(chosen_ml.best_config)
+    # with col4e:
+    #     st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
+    #     st.table(choice_fit_results)
 
     # write_list = set(df_frasier['writtenBy'])
     # direct_list = set(df_frasier['directedBy'])
-
-    # choices_df = pd.DataFrame()
-    # for f in feature_choices:
-    #     if f == 'writtenBy':
-    #         write_choice = st.select_slider(
-    #             'Select one of the writers:',
-    #             options=write_list)
-    #     elif f == 'directedBy':
-    #         direct_choice = st.select_slider(
-    #             'Select one of the directors:',
-    #             options=write_list)
-
-    # len_feat_choice = len(feature_choices)
