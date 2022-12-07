@@ -443,15 +443,14 @@ with tab2:
     #         title='Characters')),
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
-    actual_chart = alt.Chart().mark_bar().encode(
+    actual_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('episodeCount:O', axis=alt.Axis(
             title='Episode count')),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color='type:N',
-        column='type:N'
-    )
+        color='type:N'
+    ).facet(column='type:N')
 
     # st.subheader(
     #     "Results of the model's IMDB rating predictions vs. the actual IMDB ratings.")
 
-    alt.layer(actual_chart, data=rate_compare).facet(column='type:N')
+    actual_chart
