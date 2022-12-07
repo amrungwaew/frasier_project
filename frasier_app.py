@@ -444,7 +444,7 @@ with tab2:
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
     actual_chart = alt.Chart(rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=False, title='Episode'),
+        x=alt.X('type:N', axis=False),
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
         color='type:N',
         column=alt.Column('episodeCount:N',
