@@ -472,16 +472,16 @@ with tab2:
 
     # Getting model stats and info both for best fit and in general
 
-    default_mod_dict = {'Best R2 on validation data:': 1-automl.best_loss,
-                        'Training duration of best run:': automl.best_config_train_time}
+    default_dict = {'The full model that was found as the best fit:': automl.model.estimator,
+                    'Best hyperparmeter config:': automl.best_config,
+                    'Best r2 on validation data:': 1-automl.best_loss,
+                    'Training duration of best run:': automl.best_config_train_time,
+                    'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
+                    'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
+                    'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
 
-    default_gen_dict = {'R2:': (1 - sklearn_metric_loss_score('r2', pred,
-                        season_11_y_test['imdbRatings'])),
-                        'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
-                        'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
-
-    default_mod = pd.DataFrame.from_dict(default_mod_dict)
-    default_gen = pd.DataFrame.from_dict(default_gen_dict)
+    best_fit_results = pd.DataFrame.from_dict(
+        default_dict)
 
     col1e, col2e, col3e, col4e, col5e, col6e, col7e, col8e = st.columns(8)
 
@@ -492,11 +492,8 @@ with tab2:
         st.write("This is the best hyperparameter configuration for the model:")
         print(automl.best_config)
     with col5e:
-        st.write("...and this was the resulting R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-        st.table(default_mod)
-    with col6e:
-        st.write("More generally, here is the overall R2, MSE, and MAE:")
-        st.table(default_gen)
+        st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
+        st.table(best_fit_results)
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
@@ -547,16 +544,16 @@ with tab2:
 
     choice_auto_chart
 
-    choice_default_mod_dict = {'Best R2 on validation data:': 1-chosen_ml.best_loss,
-                               'Training duration of best run:': chosen_ml.best_config_train_time}
+    choice_dict = {'The full model that was found as the best fit:': chosen_ml.model.estimator,
+                   'Best hyperparmeter config:': chosen_ml.best_config,
+                   'Best r2 on validation data:': 1-chosen_ml.best_loss,
+                   'Training duration of best run:': chosen_ml.best_config_train_time,
+                   'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings'])),
+                   'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
+                   'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
 
-    choice_default_gen_dict = {'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred,
-                                                                     season_11_y_test['imdbRatings'])),
-                               'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
-                               'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
-
-    choice_default_mod = pd.DataFrame.from_dict(choice_default_mod_dict)
-    choice_default_gen = pd.DataFrame.from_dict(choice_default_gen_dict)
+    choice_fit_results = pd.DataFrame.from_dict(
+        choice_dict)
 
     with col3e:
         st.write("Based on your choices, this was the best-fitting model found:")
@@ -566,11 +563,8 @@ with tab2:
             "Based on your choices, this is the best hyperparameter configuration for the model:")
         print(chosen_ml.best_config)
     with col5e:
-        st.write("...and this was the resulting R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-        st.table(choice_default_mod)
-    with col6e:
-        st.write("More generally, here is the overall R2, MSE, and MAE:")
-        st.table(choice_default_gen)
+        st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
+        st.table(choice_fit_results)
 
     # write_list = set(df_frasier['writtenBy'])
     # direct_list = set(df_frasier['directedBy'])
