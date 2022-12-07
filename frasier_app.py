@@ -12,6 +12,7 @@ import streamlit as st
 import pickle
 import numpy as np
 from flaml import AutoML
+from flaml.ml import sklearn_metric_loss_score
 from sklearn import preprocessing
 
 # Preliminary set up
@@ -451,20 +452,36 @@ with tab2:
     actual_chart
 
     st.subheader(
-        "The impact of all features used by the model to predict IMDB rating.")
+        "The non-zero importance of features used by the model to predict IMDB rating.")
 
     X_feat_imps_info = pd.DataFrame()
     X_feat_imps_info['Features'] = automl.feature_names_in_
-    X_feat_imps_info['Importances'] = automl.feature_importances_
-    X_feat_imps_info_filtered = X_feat_imps_info[X_feat_imps_info['Importances'] != 0]
+    X_feat_imps_info['Importance'] = automl.feature_importances_
+    X_feat_imps_info_filtered = X_feat_imps_info[X_feat_imps_info['Importance'] != 0]
 
     feat_imps_chart = alt.Chart(X_feat_imps_info_filtered).mark_bar().encode(
-        x=alt.X('Importances', axis=alt.Axis(
-            title='Impact', grid=False)),
+        x=alt.X('Importance', axis=alt.Axis(
+            title='Importance', grid=False)),
         y=alt.Y('Features', axis=alt.Axis(title='Features')),
         color=alt.Color('Features', scale=alt.Scale(scheme='rainbow'), legend=alt.Legend(
             title='Features')),
-        tooltip=['Importances']
+        tooltip=['Importance']
     ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
     feat_imps_chart
+
+    # Getting model stats and info both for best fit and in general
+
+    default_dict = {'The full model that was found as the best fit': automl.model.estimator,
+                    'Best hyperparmeter config': automl.best_config,
+                    'Best r2 on validation data': 1-automl.best_loss,
+                    'Training duration of best run': automl.best_config_train_time,
+                    'R2': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
+                    'MSE': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
+                    'MAE': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
+
+    best_fit_results = pd.DataFrame.from_dict(default_dict, orient='index')
+
+    st.table(best_fit_results)
+
+    st.write("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit!")
