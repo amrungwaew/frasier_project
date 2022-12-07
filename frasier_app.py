@@ -24,7 +24,7 @@ st.set_page_config(
     layout='wide'
 )
 
-header = Image.open('header.jpeg')
+header = Image.open('heading.jpeg')
 st.image(header)
 
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
