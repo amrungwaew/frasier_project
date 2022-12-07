@@ -482,8 +482,6 @@ with tab2:
 
     best_fit_results = pd.DataFrame.from_dict(
         default_dict, orient='index')
-    best_fit_results = best_fit_results.set_axis(
-        "Results", axis=1, inplace=True)
 
     st.table(best_fit_results)
 
