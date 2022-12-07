@@ -444,10 +444,10 @@ with tab2:
     # ).configure_view(strokeWidth=0).properties(height=500, width=1400)
 
     actual_chart = alt.Chart(rate_compare).mark_bar().encode(
-        x='episodeCount:O',
-        y='imdbRatings:Q',
-        color='type:N',
-        column='type:N'
+        x='episodeCount',
+        y='imdbRatings',
+        color='type',
+        column='type'
     )
 
     # st.subheader(
