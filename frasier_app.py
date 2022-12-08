@@ -515,10 +515,10 @@ with tab2:
 
     with col1e:
         feature_choices = st.multiselect(
-            'Select the features you would like to include in training a better model:', imp_feats, ['Roz_Doyle'])
+            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
 
     choice_X_train = X_train_scaled.loc[:,
-                                        X_train_scaled.columns.isin(actual_cols)]
+                                        X_train_scaled.columns.isin(feature_choices)]
     chosen_ml = AutoML()
     chosen_automl_settings = {
         "time_budget": 5,
@@ -538,7 +538,9 @@ with tab2:
 
     with open("automl.pkl", "rb") as f:
         chosen_ml = load_model()
-    choice_pred = chosen_ml.predict(X_test_scaled[feature_choices])
+    choice_X_test = X_test_scaled.loc[:,
+                                      X_test_scaled.columns.isin(feature_choices)]
+    choice_pred = chosen_ml.predict(choice_X_test)
 
     choice_rate_compare = season_11_y_test.reindex(
         list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
