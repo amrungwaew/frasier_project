@@ -479,14 +479,13 @@ with tab2:
 
     # Getting model stats and info both for best fit and in general
 
-    info_dict = {'Best r2 on validation data:': 1-automl.best_loss,
-                 'Training duration of best run:': automl.best_config_train_time,
-                 'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
-                 'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
-                 'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
+    info_dict = {'Best r2 on validation data:': [1-automl.best_loss],
+                 'Training duration of best run:': [automl.best_config_train_time],
+                 'R2:': [(1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings']))],
+                 'MSE:': [sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings'])],
+                 'MAE:': [sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])]}
 
-    best_fit_info = {k: [v] for k, v in info_dict}
-    best_fit_results = pd.DataFrame(best_fit_info)
+    fit_info = pd.DataFrame(info_dict)
 
     col1e, col2e, col3e, col4e = st.columns(4)
 
@@ -499,7 +498,7 @@ with tab2:
     st.dataframe(config)
 
     st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
-    st.table(best_fit_results)
+    st.table(fit_info)
     st.write(
         "_NOTE: Streamlit has limited support and I ran into a bug regarding how to display this table nicely. See my bug report [here](https://github.com/streamlit/streamlit/issues/5828)_")
 
