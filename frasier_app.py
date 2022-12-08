@@ -443,7 +443,7 @@ with tab2:
 
     auto_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating',grid=False)),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating', grid=False)),
         color=alt.condition(
             alt.datum.type == 'Actual',
             alt.value('#fc9272'),
@@ -479,9 +479,7 @@ with tab2:
 
     # Getting model stats and info both for best fit and in general
 
-    default_dict = {'The full model that was found as the best fit:': automl.model.estimator,
-                    'Best hyperparmeter config:': automl.best_config,
-                    'Best r2 on validation data:': 1-automl.best_loss,
+    default_dict = {'Best r2 on validation data:': 1-automl.best_loss,
                     'Training duration of best run:': automl.best_config_train_time,
                     'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
                     'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
