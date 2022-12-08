@@ -490,10 +490,10 @@ with tab2:
 
     col1e, col2e = st.columns(2)
 
-    st.write("**This was the best-fitting model found**: " +
-             automl.best_estimator + " classifier")
-
     with col1e:
+
+        st.write("**This was the best-fitting model found**: " +
+                 automl.best_estimator + " classifier")
 
         st.write("**This is the best hyperparameter configuration for the model**:")
         best_config = {k: [v] for k, v in automl.best_config.items()}
@@ -576,12 +576,12 @@ with tab2:
     choice_fit_info = pd.DataFrame(choice_info_dict)
     choice_fit_info.index = ['result']
 
-    st.write("**This was the best-fitting model found**: " +
-             chosen_ml.best_estimator + " classifier")
-
     col1g, col2g = st.columns(2)
 
     with col1g:
+
+        st.write("**This was the best-fitting model found**: " +
+                 chosen_ml.best_estimator + " classifier")
 
         st.write("**This is the best hyperparameter configuration for the model**:")
         choice_best_config = {k: [v] for k, v in chosen_ml.best_config.items()}
