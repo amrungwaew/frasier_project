@@ -525,7 +525,7 @@ with tab2:
         "task": 'classification',
         "log_file_name": "frasier.log",
     }
-
+    y_train = np.array(rates_y_train)
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
                   **chosen_automl_settings)
