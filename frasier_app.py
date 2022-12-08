@@ -511,13 +511,14 @@ with tab2:
 ####### Begin user input part ######
 
     imp_feats = list(X_feat_imps_info_filtered['Features'])
+    actual_cols = [name.replace('_', ' ') for name in imp_feats]
 
     with col1e:
         feature_choices = st.multiselect(
             'Select the features you would like to include in training a better model:', imp_feats, ['Roz_Doyle'])
 
     choice_X_train = X_train_scaled.loc[:,
-                                        X_train_scaled.columns.isin(feature_choices)]
+                                        X_train_scaled.columns.isin(actual_cols)]
     chosen_ml = AutoML()
     chosen_automl_settings = {
         "time_budget": 5,
@@ -525,7 +526,6 @@ with tab2:
         "task": 'classification',
         "log_file_name": "frasier.log",
     }
-    y_train = np.array(rates_y_train)
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
                   **chosen_automl_settings)
