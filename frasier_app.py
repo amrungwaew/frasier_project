@@ -403,7 +403,7 @@ X_test_scaled['writtenBy'] = season_11_x_test['writtenBy']
 # the model!
 automl = AutoML()
 automl_settings = {
-    "time_budget": 1,
+    "time_budget": 5,
     "metric": 'accuracy',
     "task": 'classification',
     "log_file_name": "frasier.log",
@@ -508,6 +508,8 @@ with tab2:
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
+####### Begin user input part ######
+
     imp_feats = list(X_feat_imps_info_filtered['Features'])
 
     with col1e:
@@ -517,16 +519,16 @@ with tab2:
     choice_X_train = X_train_scaled.loc[:,
                                         X_train_scaled.columns.isin(feature_choices)]
     chosen_ml = AutoML()
-    # automl_settings = {
-    #     "time_budget": 1,
-    #     "metric": 'accuracy',
-    #     "task": 'classification',
-    #     "log_file_name": "frasier.log",
-    # }
+    chosen_automl_settings = {
+        "time_budget": 5,
+        "metric": 'accuracy',
+        "task": 'classification',
+        "log_file_name": "frasier.log",
+    }
 
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
-                  **automl_settings)
+                  **chosen_automl_settings)
     with open("automl.pkl", "wb") as f:
         pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
 
