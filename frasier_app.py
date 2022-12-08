@@ -489,14 +489,13 @@ with tab2:
 
     col1e, col2e, col3e, col4e = st.columns(4)
 
-    with col1e:
-        st.write("This was the best-fitting model found:")
-        st.write(automl.best_estimator)
-    with col2e:
-        st.write("This is the best hyperparameter configuration for the model:")
-        best_config = {k: [v] for k, v in automl.best_config.items()}
-        config = pd.DataFrame(best_config)
-        st.dataframe(config)
+    st.write("This was the best-fitting model found:" +
+             automl.best_estimator)
+
+    st.write("This is the best hyperparameter configuration for the model:")
+    best_config = {k: [v] for k, v in automl.best_config.items()}
+    config = pd.DataFrame(best_config)
+    st.dataframe(config)
 
     st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
     st.table(best_fit_results)
