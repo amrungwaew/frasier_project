@@ -494,7 +494,9 @@ with tab2:
         st.write("The best model was XGBClassifier. XGBoost refers to Extreme Gradient Boosting, a gradient-boosted decision tree (GBDT).")
     with col2e:
         st.write("This is the best hyperparameter configuration for the model:")
-        config = pd.DataFrame.from_dict(automl.best_config)
+        index_len = len(automl.best_config)
+        config = pd.DataFrame.from_dict(
+            automl.best_config, index=range(0, index_len))
         st.dataframe(config)
 
     st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
