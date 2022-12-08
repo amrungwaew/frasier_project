@@ -491,13 +491,16 @@ with tab2:
 
     with col1e:
         st.write("This was the best-fitting model found:")
-        print(automl.model.estimator)
+        st.write("The best model was XGBClassifier. XGBoost refers to Extreme Gradient Boosting, a gradient-boosted decision tree (GBDT).")
     with col2e:
         st.write("This is the best hyperparameter configuration for the model:")
-        print(automl.best_config)
-    with col3e:
-        st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-        st.table(best_fit_results)
+        config = pd.DataFrame.from_dict(automl.best_config)
+        st.dataframe(config)
+
+    st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
+    st.table(best_fit_results)
+    st.write(
+        "NOTE: Streamlit has limited support and I ran into a bug regarding how to display this table nicely. See my bug report [here](https://github.com/streamlit/streamlit/issues/5828)")
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
