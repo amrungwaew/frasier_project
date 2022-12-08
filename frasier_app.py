@@ -443,10 +443,10 @@ with tab2:
 
     auto_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating',grid=False)),
         color=alt.condition(
             alt.datum.type == 'Actual',
-            alt.value('#e34a33'),
+            alt.value('#fc9272'),
             alt.value('#a6bddb')),
         column=alt.Column('episodeCount:N',
                           header=alt.Header(orient='bottom')),
