@@ -479,14 +479,14 @@ with tab2:
 
     # Getting model stats and info both for best fit and in general
 
-    default_dict = {'Best r2 on validation data:': 1-automl.best_loss,
-                    'Training duration of best run:': automl.best_config_train_time,
-                    'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
-                    'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
-                    'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
+    info_dict = {'Best r2 on validation data:': 1-automl.best_loss,
+                 'Training duration of best run:': automl.best_config_train_time,
+                 'R2:': (1 - sklearn_metric_loss_score('r2', pred, season_11_y_test['imdbRatings'])),
+                 'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
+                 'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
 
-    best_fit_results = {k: [v] for k, v in default_dict.items()}
-    best_fit_results = pd.DataFrame(best_fit_results)
+    best_fit_info = {k: [v] for k, v in info_dict}
+    best_fit_results = pd.DataFrame(best_fit_info)
 
     col1e, col2e, col3e, col4e = st.columns(4)
 
