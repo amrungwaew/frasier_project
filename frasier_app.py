@@ -491,7 +491,7 @@ with tab2:
 
     with col1e:
         st.write("This was the best-fitting model found:")
-        st.write(automl.best_estimator())
+        st.write(automl.best_estimator)
     with col2e:
         st.write("This is the best hyperparameter configuration for the model:")
         best_config = {k: [v] for k, v in automl.best_config.items()}
