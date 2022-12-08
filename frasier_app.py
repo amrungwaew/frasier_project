@@ -420,8 +420,11 @@ automl.fit(X_train=X_train_scaled, y_train=y_train,
 with open("automl.pkl", "wb") as f:
     pickle.dump(automl, f, pickle.HIGHEST_PROTOCOL)
 
-
+###### Setting things up ######
 with tab2:
+
+    st.subheader("Prefatory notes.")
+    st.write("This page looks at what happens when machine learning is applied to the Frasier data. Here, I use FLAML, Microsoft's 'Fast Library for Automated Machine Learning & Tuning.' Several primary reasons for this choice are as follows. \n 1) The data is limited. Currently, I have not utilised the aspect of this data that captures every single word ever said in the show. Instead, I have 'collapsed' things down by episode. This means that, instead of approximately 775,000 observations, there are only about 260 observations. This 'feature engineering' results in a very small number that is far from ideal for machine learning purposes. However, it's what I've got for now (until I can learn more about how to handle the much larger, original dataset). \n 2) I set out to make this particular part of the web app more focused on user interaction as opposed to showing all the nitty-gritty details of what's going on under the machine learning hood. FLAML makes this user-friendly goal much more easily achievable in a limited time frame. \n Which brings me to: 3) As you may or may not know, there are plans for a _Frasier_ reboot-continuation. Personal opinions and trepidations aside, I believe that this will prove a fascinating case study to see how the original _Frasier_ audience—of the '90's and '00's—interacts with a revival made 20 years later (as opposed to the newer audience). This is a balancing act we are seeing more and more in our media-saturated world as creators want to capture the widest audience possible. Creators have to decide how much to cater to the original audience while also catering to the new audiences. It's a snarly mess of social forces as generational ideologies continually shift and self-fashioning becomes ubiquitous. \n All that goes to say, I'm endlessly curious about how a _Frasier_ revival will be received. My project here represents a meagre attempt to become part of the larger discourse to see what (if anything) can be learned via data science techniques like machine learning.")
 
     # in order to try to cut down on memory usage per Streamlit's documentation on resource limits...
     @st.cache
@@ -508,7 +511,7 @@ with tab2:
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
-    ####### Begin user input part ######
+####### Begin user input part ######
 
     imp_feats = list(X_feat_imps_info_filtered['Features'])
     actual_cols = [name.replace('_', ' ') for name in imp_feats]
