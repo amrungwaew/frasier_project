@@ -567,6 +567,9 @@ with tab2:
                         'MSE:': [sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings'])],
                         'MAE:': [sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])]}
 
+    choice_fit_info = pd.DataFrame(choice_info_dict)
+    choice_fit_info.index = ['result']
+
     st.write("**This was the best-fitting model found**: " +
              chosen_ml.best_estimator + " classifier")
 
@@ -579,31 +582,4 @@ with tab2:
         st.dataframe(choice_config)
 
         st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
-        choice_fit_info = pd.DataFrame(choice_info_dict)
-        choice_fit_info.index = ['result']
         st.table(choice_fit_info)
-
-    choice_dict = {'The full model that was found as the best fit:': chosen_ml.model.estimator,
-                   'Best hyperparmeter config:': chosen_ml.best_config,
-                   'Best r2 on validation data:': 1-chosen_ml.best_loss,
-                   'Training duration of best run:': chosen_ml.best_config_train_time,
-                   'R2:': (1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings'])),
-                   'MSE:': sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings']),
-                   'MAE:': sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])}
-
-    choice_fit_results = pd.DataFrame.from_dict(
-        choice_dict)
-
-    # with col2e:
-    #     st.write("Based on your choices, this was the best-fitting model found:")
-    #     print(chosen_ml.model.estimator)
-    # with col3e:
-    #     st.write(
-    #         "Based on your choices, this is the best hyperparameter configuration for the model:")
-    #     print(chosen_ml.best_config)
-    # with col4e:
-    #     st.write("...and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable:")
-    #     st.table(choice_fit_results)
-
-    # write_list = set(df_frasier['writtenBy'])
-    # direct_list = set(df_frasier['directedBy'])
