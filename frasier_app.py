@@ -485,8 +485,8 @@ with tab2:
                     'MSE:': sklearn_metric_loss_score('mse', pred, season_11_y_test['imdbRatings']),
                     'MAE:': sklearn_metric_loss_score('mae', pred, season_11_y_test['imdbRatings'])}
 
-    best_fit_results = pd.DataFrame.from_dict(
-        default_dict)
+    best_fit_results = {k: [v] for k, v in default_dict.items()}
+    best_fit_results = pd.DataFrame(best_fit_results)
 
     col1e, col2e, col3e, col4e = st.columns(4)
 
