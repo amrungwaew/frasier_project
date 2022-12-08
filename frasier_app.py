@@ -446,8 +446,8 @@ with tab2:
         y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
         color=alt.condition(
             alt.datum.type == 'Actual',
-            alt.value('crimson'),
-            alt.value('gold')),
+            alt.value('#e34a33'),
+            alt.value('#a6bddb')),
         column=alt.Column('episodeCount:N',
                           header=alt.Header(orient='bottom')),
         tooltip=['imdbRatings']
