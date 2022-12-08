@@ -508,12 +508,14 @@ with tab2:
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
-####### Begin user input part ######
+    ####### Begin user input part ######
 
     imp_feats = list(X_feat_imps_info_filtered['Features'])
     actual_cols = [name.replace('_', ' ') for name in imp_feats]
 
-    with col1e:
+    col1f, col2f = st.columns(2)
+
+    with col1f:
         feature_choices = st.multiselect(
             'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
 
@@ -577,7 +579,9 @@ with tab2:
     st.write("**This was the best-fitting model found**: " +
              chosen_ml.best_estimator + " classifier")
 
-    with col1e:
+    col1g, col2g = st.columns(2)
+
+    with col1g:
 
         st.write("**This is the best hyperparameter configuration for the model**:")
         choice_best_config = {k: [v] for k, v in chosen_ml.best_config.items()}
