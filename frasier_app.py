@@ -628,10 +628,10 @@ with tab2:
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
                   **chosen_automl_settings)
-    with open("automl.pkl", "wb") as g:
-        pickle.dump(chosen_ml, g, pickle.HIGHEST_PROTOCOL)
+    with open("automl.pkl", "wb") as f:
+        pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("automl.pkl", "rb") as g:
+    with open("automl.pkl", "rb") as f:
         chosen_ml = load_model()
     choice_X_test = X_test_scaled.loc[:,
                                       X_test_scaled.columns.isin(feature_choices)]
@@ -710,10 +710,10 @@ with tab2:
     new_auto_ml.fit(X_train=new_x_train, y_train=new_y_train,
                     **new_automl_settings)
 
-    with open("automl.pkl", "wb") as h:
-        pickle.dump(new_auto_ml, h, pickle.HIGHEST_PROTOCOL)
+    with open("automl.pkl", "wb") as f:
+        pickle.dump(new_auto_ml, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("automl.pkl", "rb") as h:
+    with open("automl.pkl", "rb") as f:
         new_auto_ml = load_model()
 
     new_pred = new_auto_ml.predict(new_x_test)
