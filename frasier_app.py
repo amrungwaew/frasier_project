@@ -628,6 +628,12 @@ with tab2:
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
                   **chosen_automl_settings)
+
+    @st.cache
+    def load_model():
+        '''used to lighten memory load'''
+        return pickle.load(f)
+
     with open("automl.pkl", "wb") as f:
         pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
 
@@ -709,6 +715,11 @@ with tab2:
     # Train with labeled input data
     new_auto_ml.fit(X_train=new_x_train, y_train=new_y_train,
                     **new_automl_settings)
+
+    @st.cache
+    def load_model():
+        '''used to lighten memory load'''
+        return pickle.load(f)
 
     with open("automl.pkl", "wb") as f:
         pickle.dump(new_auto_ml, f, pickle.HIGHEST_PROTOCOL)
