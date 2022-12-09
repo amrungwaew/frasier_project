@@ -654,8 +654,12 @@ with tab2:
 
         choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
             x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(
+                title='Rating', grid=False)),
+            color=alt.condition(
+                alt.datum.type == 'Actual',
+                alt.value('#fc9272'),
+                alt.value('#a6bddb')),
             column=alt.Column('episodeCount:N',
                               header=alt.Header(orient='bottom')),
             tooltip=['imdbRatings']
@@ -742,8 +746,12 @@ with tab2:
 
         choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
             x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(
+                title='Rating', grid=False)),
+            color=alt.condition(
+                alt.datum.type == 'Actual',
+                alt.value('#fc9272'),
+                alt.value('#a6bddb')),
             column=alt.Column('episodeCount:N',
                               header=alt.Header(orient='bottom')),
             tooltip=['imdbRatings']
@@ -838,8 +846,12 @@ with tab2:
 
         another_choice_auto_chart = alt.Chart(another_new_chart_compare).mark_bar().encode(
             x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(
+                title='Rating', grid=False)),
+            color=alt.condition(
+                alt.datum.type == 'Actual',
+                alt.value('#fc9272'),
+                alt.value('#a6bddb')),
             column=alt.Column('episodeCount:N',
                               header=alt.Header(orient='bottom')),
             tooltip=['imdbRatings']
