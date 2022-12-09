@@ -701,7 +701,7 @@ with tab2:
     )
 
     new_y_test = split_y_test(season_to_drop)
-    new_y_train = split_y_train(season_to_drop)
+    new_y_train = np.array(split_y_train(season_to_drop))
     new_x_test = scale_test_df(season_to_drop)
     new_x_train = scale_train_df(season_to_drop)
 
