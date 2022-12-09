@@ -617,80 +617,87 @@ with tab2:
         feature_choices = st.multiselect(
             'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
 
-    choice_X_train = X_train_scaled.loc[:,
-                                        X_train_scaled.columns.isin(feature_choices)]
-    chosen_ml = AutoML()
-    chosen_automl_settings = {
-        "time_budget": 5,
-        "metric": 'accuracy',
-        "task": 'classification',
-        "log_file_name": "frasier.log",
-    }
-    # Train with labeled input data
-    chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
-                  **chosen_automl_settings)
+    if st.button('Run model!', key=1):
 
-    @st.cache
-    def load_model():
-        '''used to lighten memory load'''
-        return pickle.load(f)
+        choice_X_train = X_train_scaled.loc[:,
+                                            X_train_scaled.columns.isin(feature_choices)]
+        chosen_ml = AutoML()
+        chosen_automl_settings = {
+            "time_budget": 5,
+            "metric": 'accuracy',
+            "task": 'classification',
+            "log_file_name": "frasier.log",
+        }
+        # Train with labeled input data
+        chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
+                      **chosen_automl_settings)
 
-    with open("automl.pkl", "wb") as f:
-        pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
+        @st.cache
+        def load_model():
+            '''used to lighten memory load'''
+            return pickle.load(f)
 
-    with open("automl.pkl", "rb") as f:
-        chosen_ml = load_model()
-    choice_X_test = X_test_scaled.loc[:,
-                                      X_test_scaled.columns.isin(feature_choices)]
-    choice_pred = chosen_ml.predict(choice_X_test)
+        with open("automl.pkl", "wb") as f:
+            pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
 
-    choice_rate_compare = season_11_y_test.reindex(
-        list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
-    choice_rate_compare['imdbRatings'] = np.append(
-        season_11_y_test['imdbRatings'], pred)
-    choice_rate_compare['type'] = np.append(
-        np.tile('Actual', 24), np.tile('Predicted', 24))
-    choice_rate_compare.index.name = 'episodeCount'
-    choice_rate_compare = rate_compare.reset_index()
+        with open("automl.pkl", "rb") as f:
+            chosen_ml = load_model()
+        choice_X_test = X_test_scaled.loc[:,
+                                          X_test_scaled.columns.isin(feature_choices)]
+        choice_pred = chosen_ml.predict(choice_X_test)
 
-    choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
-        column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom')),
-        tooltip=['imdbRatings']
-    ).configure_view(strokeWidth=0).properties(width=50)
+        choice_rate_compare = season_11_y_test.reindex(
+            list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
+        choice_rate_compare['imdbRatings'] = np.append(
+            season_11_y_test['imdbRatings'], pred)
+        choice_rate_compare['type'] = np.append(
+            np.tile('Actual', 24), np.tile('Predicted', 24))
+        choice_rate_compare.index.name = 'episodeCount'
+        choice_rate_compare = rate_compare.reset_index()
 
-    st.subheader(
-        "Results of the chosen model's predicted IMDB ratings vs. the actual IMDB ratings.")
+        choice_auto_chart = alt.Chart(choice_rate_compare).mark_bar().encode(
+            x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            column=alt.Column('episodeCount:N',
+                              header=alt.Header(orient='bottom')),
+            tooltip=['imdbRatings']
+        ).configure_view(strokeWidth=0).properties(width=50)
 
-    choice_auto_chart
+        st.subheader(
+            "Results of the chosen model's predicted IMDB ratings vs. the actual IMDB ratings.")
 
-    choice_info_dict = {'Best r2 on validation data:': [1-chosen_ml.best_loss],
-                        'Training duration of best run:': [chosen_ml.best_config_train_time],
-                        'R2:': [(1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings']))],
-                        'MSE:': [sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings'])],
-                        'MAE:': [sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])]}
+        choice_auto_chart
 
-    choice_fit_info = pd.DataFrame(choice_info_dict)
-    choice_fit_info.index = ['result']
+        choice_info_dict = {'Best r2 on validation data:': [1-chosen_ml.best_loss],
+                            'Training duration of best run:': [chosen_ml.best_config_train_time],
+                            'R2:': [(1 - sklearn_metric_loss_score('r2', choice_pred, season_11_y_test['imdbRatings']))],
+                            'MSE:': [sklearn_metric_loss_score('mse', choice_pred, season_11_y_test['imdbRatings'])],
+                            'MAE:': [sklearn_metric_loss_score('mae', choice_pred, season_11_y_test['imdbRatings'])]}
 
-    col1g, col2g = st.columns(2)
+        choice_fit_info = pd.DataFrame(choice_info_dict)
+        choice_fit_info.index = ['result']
 
-    with col1g:
+        col1g, col2g = st.columns(2)
 
-        st.write("**This was the best-fitting model found**: " +
-                 chosen_ml.best_estimator + " classifier")
+        with col1g:
 
-        st.write("**This is the best hyperparameter configuration for the model**:")
-        choice_best_config = {k: [v] for k, v in chosen_ml.best_config.items()}
-        choice_config = pd.DataFrame(choice_best_config)
-        choice_config.index = ['result']
-        st.dataframe(choice_config)
+            st.write("**This was the best-fitting model found**: " +
+                     chosen_ml.best_estimator + " classifier")
 
-        st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
-        st.table(choice_fit_info)
+            st.write(
+                "**This is the best hyperparameter configuration for the model**:")
+            choice_best_config = {k: [v]
+                                  for k, v in chosen_ml.best_config.items()}
+            choice_config = pd.DataFrame(choice_best_config)
+            choice_config.index = ['result']
+            st.dataframe(choice_config)
+
+            st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
+            st.table(choice_fit_info)
+
+    else:
+        st.write("The model will not run until you click this button.")
 
     ###### User input part 2 #######
 
@@ -706,7 +713,8 @@ with tab2:
     new_x_test = scale_test_df(season_to_drop)
     new_x_train = scale_train_df(season_to_drop)
 
-    if st.button('Run model!'):
+    if st.button('Run model!', key=2):
+
         new_auto_ml = AutoML()
         new_automl_settings = {
             "time_budget": 5,
