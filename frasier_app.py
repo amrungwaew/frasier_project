@@ -502,11 +502,8 @@ automl.fit(X_train=X_train_scaled, y_train=y_train,
 with open("automl.pkl", "wb") as f:
     pickle.dump(automl, f, pickle.HIGHEST_PROTOCOL)
 
-###### Setting things up ######
+# Setting things up ###### MODEL 1 ##### manual
 with tab2:
-
-    st.subheader("Prefatory notes.")
-    st.write("This page looks at what happens when machine learning is applied to the Frasier data. Here, I use FLAML, Microsoft's 'Fast Library for Automated Machine Learning & Tuning.' Several primary reasons for this choice are as follows. \n 1) The data is limited. Currently, I have not utilised the aspect of this data that captures every single word ever said in the show. Instead, I have 'collapsed' things down by episode. This means that, instead of approximately 775,000 observations, there are only about 260 observations. This 'feature engineering' results in a very small number that is far from ideal for machine learning purposes. However, it's what I've got for now (until I can learn more about how to handle the much larger, original dataset). \n 2) I set out to make this particular part of the web app more focused on user interaction as opposed to showing all the nitty-gritty details of what's going on under the machine learning hood. FLAML makes this user-friendly goal much more easily achievable in a limited time frame. \n 3) As you may or may not know, there are plans for a _Frasier_ reboot-continuation. Personal opinions and trepidations aside, I believe that this will prove a fascinating case study to see how the original _Frasier_ audience—of the '90's and '00's—interacts with a revival made 20 years later (as opposed to the newer audience). This is a balancing act we are seeing more and more in our media-saturated world as creators want to capture the widest audience possible. Creators have to decide how much to cater to the original audience while also catering to the new audiences. It's a snarly mess of social forces as generational ideologies continually shift and self-fashioning becomes ubiquitous. \n All that goes to say, I'm endlessly curious about how a _Frasier_ revival will be received. My project here represents a meagre attempt to become part of the larger discourse to see what (if anything) can be learned via data science techniques like machine learning.")
 
     # in order to try to cut down on memory usage per Streamlit's documentation on resource limits...
     @st.cache
@@ -606,7 +603,7 @@ with tab2:
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
-    ####### Begin user input part 1 ######
+# Begin user input part 1 ###### ###### MODEL 2 ##### manual
 
     imp_feats = list(X_feat_imps_info_filtered['Features'])
     actual_cols = [name.replace('_', ' ') for name in imp_feats]
@@ -699,13 +696,13 @@ with tab2:
     else:
         st.write("The model will not run until you click this button.")
 
-    ###### User input part 2 #######
+# User input part 2 ####### ###### MODEL 3 ##### Functions
 
-    st.subheader("Now, onto grander things (fingers crossed!). You now can choose on what subset of the data the model gets trained on by selecting which season is dropped. That is, given the 11 seasons, one selected season is set aside for testing and the other 10 are for training.")
+    st.subheader("Now, onto grander things. You now can choose on what subset of the data the model gets trained on by selecting which season is dropped. That is, given the 11 seasons, one selected season is set aside for testing and the other 10 are for training.")
 
     season_to_drop = st.selectbox(
         "Select a season to drop:",
-        (range(1, 12))
+        (range(1, 11))
     )
 
     new_y_test = split_y_test(season_to_drop)
@@ -757,9 +754,9 @@ with tab2:
 
         new_info_dict = {'Best r2 on validation data:': [1-new_auto_ml.best_loss],
                          'Training duration of best run:': [new_auto_ml.best_config_train_time],
-                         'R2:': [(1 - sklearn_metric_loss_score('r2', new_pred, season_11_y_test['imdbRatings']))],
-                         'MSE:': [sklearn_metric_loss_score('mse', new_pred, season_11_y_test['imdbRatings'])],
-                         'MAE:': [sklearn_metric_loss_score('mae', new_pred, season_11_y_test['imdbRatings'])]}
+                         'R2:': [(1 - sklearn_metric_loss_score('r2', new_pred, new_x_test['imdbRatings']))],
+                         'MSE:': [sklearn_metric_loss_score('mse', new_pred, new_x_test['imdbRatings'])],
+                         'MAE:': [sklearn_metric_loss_score('mae', new_pred, new_x_test['imdbRatings'])]}
 
         new_choice_fit_info = pd.DataFrame(new_info_dict)
         new_choice_fit_info.index = ['result']
@@ -781,6 +778,100 @@ with tab2:
 
             st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
             st.table(new_choice_fit_info)
+    else:
+        st.write('The model will not run until you click this button.')
+
+# User changing features and season ##### MODEL 4 ##### Functions
+    col1i, col2i = st.columns(2)
+    with col1i:
+        another_season_to_drop = st.selectbox(
+            "Select a season to drop:",
+            (range(1, 11))
+        )
+        new_feature_choices = st.multiselect(
+            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
+
+    another_new_y_test = split_y_test(another_season_to_drop)
+    another_new_y_train = np.array(split_y_train(another_season_to_drop))
+    another_new_x_test = scale_test_df(another_season_to_drop)
+    another_new_x_train = scale_train_df(another_season_to_drop)
+
+    if st.button('Run model!', key=3):
+
+        another_choice_X_train = another_new_x_train.loc[:,
+                                                         another_new_x_train.columns.isin(new_feature_choices)]
+
+        another_new_auto_ml = AutoML()
+        another_new_automl_settings = {
+            "time_budget": 5,
+            "metric": 'accuracy',
+            "task": 'classification',
+            "log_file_name": "frasier.log",
+        }
+        # Train with labeled input data
+        another_new_auto_ml.fit(X_train=another_choice_X_train, y_train=new_y_train,
+                                **another_new_automl_settings)
+
+        @st.cache
+        def load_model():
+            '''used to lighten memory load'''
+            return pickle.load(f)
+
+        with open("automl.pkl", "wb") as f:
+            pickle.dump(another_new_auto_ml, f, pickle.HIGHEST_PROTOCOL)
+
+        with open("automl.pkl", "rb") as f:
+            another_new_auto_ml = load_model()
+
+        another_choice_X_test = another_new_x_test.loc[:,
+                                                       another_new_x_test.columns.isin(new_feature_choices)]
+
+        another_new_pred = another_new_auto_ml.predict(another_choice_X_test)
+
+        another_new_chart_compare = prepare_chart_df(
+            another_season_to_drop, another_new_pred)
+
+        another_choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
+            x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            column=alt.Column('episodeCount:N',
+                              header=alt.Header(orient='bottom')),
+            tooltip=['imdbRatings']
+        ).configure_view(strokeWidth=0).properties(width=50)
+
+        st.subheader(
+            "Results of the model's predicted IMDB ratings vs. the actual IMDB ratings.")
+
+        another_choice_auto_chart
+
+        another_new_info_dict = {'Best r2 on validation data:': [1-another_new_auto_ml.best_loss],
+                                 'Training duration of best run:': [another_new_auto_ml.best_config_train_time],
+                                 'R2:': [(1 - sklearn_metric_loss_score('r2', another_new_pred, another_new_y_test['imdbRatings']))],
+                                 'MSE:': [sklearn_metric_loss_score('mse', another_new_pred, another_new_y_test['imdbRatings'])],
+                                 'MAE:': [sklearn_metric_loss_score('mae', another_new_pred, another_new_y_test['imdbRatings'])]}
+
+        another_new_choice_fit_info = pd.DataFrame(another_new_info_dict)
+        another_new_choice_fit_info.index = ['result']
+
+        col1j, col2j = st.columns(2)
+
+        with col1j:
+
+            st.write("**This was the best-fitting model found**: " +
+                     another_new_auto_ml.best_estimator + " classifier")
+
+            st.write(
+                "**This is the best hyperparameter configuration for the model**:")
+            another_new_choice_best_config = {k: [v]
+                                              for k, v in another_new_auto_ml.best_config.items()}
+            another_new_choice_config = pd.DataFrame(
+                another_new_choice_best_config)
+            another_new_choice_config.index = ['result']
+            st.dataframe(another_new_choice_config)
+
+            st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
+            st.table(another_new_choice_fit_info)
     else:
         st.write('The model will not run until you click this button.')
 
