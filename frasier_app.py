@@ -347,41 +347,101 @@ ratings = (
     .groupby("episodeCount")
     .first()
 )
-
-# ML dfs
+#### ML dfs ####
 
 # splitting ratings (Y): setting aside season 11 episodes for testing
 season_11_y_test = ratings.tail(24)
 # the training set
 rates_y_train = ratings[:-24]
 
+
+def split_y_test(season):
+    temp = [x+((season-1)*24) for x in range(1, 25)]
+    season_test = pd.DataFrame()
+    return pd.concat([season_test, ratings[temp[0]-1:temp[-1]]])
+
+
+def split_y_train(season):
+    '''splitting df to get y train'''
+    temp = [x+((season-1)*24) for x in range(1, 25)]
+    return ratings.drop(ratings.index[temp[0]-1:temp[-1]])
+
+
 # splitting features (X): setting aside season 11 episodes
 season_11_x_test = feat_df.tail(24)
 # the training set
 feat_df_x_train = feat_df[:-24]
 
+
+def split_x_test(season):
+    '''splitting df to get x test'''
+    temp = [x+((season-1)*24) for x in range(1, 25)]
+    return feat_df[temp[0]-1:temp[-1]]
+
+
+def split_x_train(season):
+    '''splitting df to get x train'''
+    temp = [x+((season-1)*24) for x in range(1, 25)]
+    return feat_df.drop(feat_df.index[temp[0]-1:temp[-1]])
+
 # Scaling X train
+
 
 # Getting episodeCount index and saving it to add back later
 ep_index_train = feat_df_x_train.reset_index()
 ep_count_train = ep_index_train['episodeCount']
 
+
+def get_ep_count(df):
+    '''saving the episodeCount for df passed in'''
+    ep_index_temp = df.reset_index()
+    return ep_index_temp['episodeCount']
+
+
 # Making a copy of the training df with numeric columns only to scale; saving column names
 numeric_x_train = feat_df_x_train.drop(['directedBy', 'writtenBy'], axis=1)
 col_names_train = numeric_x_train.columns
+
+
+def numeric_training(season):
+    '''returning numeric only training df'''
+    return split_x_train(season).drop(['directedBy', 'writtenBy'], axis=1)
+
+
+def get_col_names(season):
+    '''saving column names of training df'''
+    return split_x_train(season).columns
+
 
 # Scaling
 a_scaler = preprocessing.StandardScaler()
 a_scaler.fit(numeric_x_train)
 X_train_scaled_temp = a_scaler.transform(numeric_x_train)
-# Adding categorical columns back in with episodeCount
+
+# Adding episodeCount back
 X_train_scaled = pd.DataFrame(X_train_scaled_temp, index=ep_count_train)
 # adding column names back in
 X_train_scaled.columns = col_names_train
 X_train_scaled['directedBy'] = feat_df_x_train['directedBy']
 X_train_scaled['writtenBy'] = feat_df_x_train['writtenBy']
 
-# Repeating process for scaling X test
+
+def scale_train_df(season):
+    '''scaling the x train df'''
+    a_scaler.fit(numeric_training(season))
+    X_train_scaled_temp = a_scaler.transform(numeric_training(season))
+    # Adding episodeCount back
+    X_training_scaled = pd.DataFrame(
+        X_train_scaled_temp, index=get_ep_count(split_x_train(season)))
+    # adding column names back in
+    # from initial default run; don't need to tailor these (yet)
+    X_training_scaled.columns = col_names_train
+    X_training_scaled['directedBy'] = split_x_train(season)['directedBy']
+    X_training_scaled['writtenBy'] = split_x_train(season)['writtenBy']
+    return X_training_scaled
+
+### Repeating process for scaling X test ###
+
 
 # Getting episodeCount index and saving it to add back later
 ep_index_test = season_11_x_test.reset_index()
@@ -400,7 +460,28 @@ X_test_scaled.columns = col_names_test
 X_test_scaled['directedBy'] = season_11_x_test['directedBy']
 X_test_scaled['writtenBy'] = season_11_x_test['writtenBy']
 
-# the model!
+
+def numeric_testing(season):
+    return split_x_test(season).drop(['directedBy', 'writtenBy'], axis=1)
+
+
+def scale_test_df(season):
+    # calling function and passing in the x test df to get ep count
+    get_ep_count(split_x_test(season))
+    a_scaler.fit(numeric_testing(season))
+    X_test_scaled_temp = a_scaler.transform(numeric_testing(season))
+    # Adding episodeCount back
+    X_testing_scaled = pd.DataFrame(
+        X_test_scaled_temp, index=get_ep_count(split_x_test(season)))
+    # adding column names back in
+    # from initial default run; don't need to tailor these (yet)
+    X_testing_scaled.columns = col_names_test
+    X_testing_scaled['directedBy'] = split_x_test(season)['directedBy']
+    X_testing_scaled['writtenBy'] = split_x_test(season)['writtenBy']
+    return X_testing_scaled
+
+
+## the model! ##
 automl = AutoML()
 automl_settings = {
     "time_budget": 5,
@@ -429,6 +510,7 @@ with tab2:
     # in order to try to cut down on memory usage per Streamlit's documentation on resource limits...
     @st.cache
     def load_model():
+        '''used to lighten memory load'''
         return pickle.load(f)
 
     with open("automl.pkl", "rb") as f:
@@ -436,13 +518,25 @@ with tab2:
     pred = automl.predict(X_test_scaled)
 
     rate_compare = season_11_y_test.reindex(
-        list(range(1, 49))).set_index(np.tile(ep_count_test, 2))
+        range(1, 49)).set_index(np.tile(ep_count_test, 2))
     rate_compare['imdbRatings'] = np.append(
         season_11_y_test['imdbRatings'], pred)
     rate_compare['type'] = np.append(
         np.tile('Actual', 24), np.tile('Predicted', 24))
     rate_compare.index.name = 'episodeCount'
     rate_compare = rate_compare.reset_index()
+
+    def prepare_chart_df(season, predicted):
+        '''making df of predicted vs. actual y'''
+        rate_compare = split_y_test(season).reindex(
+            range(1, 49)).set_index(np.tile(get_ep_count(split_y_test(season)), 2))
+        rate_compare['imdbRatings'] = np.append(
+            split_y_test(season)['imdbRatings'], predicted)
+        rate_compare['type'] = np.append(
+            np.tile('Actual', 24), np.tile('Predicted', 24))
+        rate_compare.index.name = 'episodeCount'
+        rate_compare = rate_compare.reset_index()
+        return rate_compare
 
     auto_chart = alt.Chart(rate_compare).mark_bar().encode(
         x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
@@ -511,7 +605,7 @@ with tab2:
 
     st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
-####### Begin user input part ######
+    ####### Begin user input part 1 ######
 
     imp_feats = list(X_feat_imps_info_filtered['Features'])
     actual_cols = [name.replace('_', ' ') for name in imp_feats]
@@ -534,14 +628,10 @@ with tab2:
     # Train with labeled input data
     chosen_ml.fit(X_train=choice_X_train, y_train=y_train,
                   **chosen_automl_settings)
-    with open("automl.pkl", "wb") as f:
-        pickle.dump(chosen_ml, f, pickle.HIGHEST_PROTOCOL)
+    with open("automl.pkl", "wb") as g:
+        pickle.dump(chosen_ml, g, pickle.HIGHEST_PROTOCOL)
 
-    @st.cache
-    def load_model():
-        return pickle.load(f)
-
-    with open("automl.pkl", "rb") as f:
+    with open("automl.pkl", "rb") as g:
         chosen_ml = load_model()
     choice_X_test = X_test_scaled.loc[:,
                                       X_test_scaled.columns.isin(feature_choices)]
@@ -594,3 +684,52 @@ with tab2:
 
         st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
         st.table(choice_fit_info)
+
+    ###### User input part 2 #######
+
+    st.subheader("Now, onto grander things (fingers crossed!). You now can choose on what subset of the data the model gets trained on by selecting which season is dropped. That is, given the 11 seasons, one selected season is set aside for testing and the other 10 are for training.")
+
+    season_to_drop = st.selectbox(
+        "Select a season to drop:",
+        (range(1, 12))
+    )
+
+    new_y_test = split_y_test(season_to_drop)
+    new_y_train = split_y_train(season_to_drop)
+    new_x_test = scale_test_df(season_to_drop)
+    new_x_train = scale_train_df(season_to_drop)
+
+    new_auto_ml = AutoML()
+    new_automl_settings = {
+        "time_budget": 5,
+        "metric": 'accuracy',
+        "task": 'classification',
+        "log_file_name": "frasier.log",
+    }
+    # Train with labeled input data
+    new_auto_ml.fit(X_train=new_x_train, y_train=new_y_train,
+                    **new_automl_settings)
+
+    with open("automl.pkl", "wb") as h:
+        pickle.dump(new_auto_ml, h, pickle.HIGHEST_PROTOCOL)
+
+    with open("automl.pkl", "rb") as h:
+        new_auto_ml = load_model()
+
+    new_pred = new_auto_ml.predict(new_x_test)
+
+    new_chart_compare = prepare_chart_df(season_to_drop, new_pred)
+
+    choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
+        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+        column=alt.Column('episodeCount:N',
+                          header=alt.Header(orient='bottom')),
+        tooltip=['imdbRatings']
+    ).configure_view(strokeWidth=0).properties(width=50)
+
+    st.subheader(
+        "Results of the model's predicted IMDB ratings vs. the actual IMDB ratings.")
+
+    choice_auto_chart
