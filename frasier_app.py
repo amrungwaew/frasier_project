@@ -30,7 +30,8 @@ st.image(header)
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
 df_frasier = pd.read_csv('tidyTranscripts.csv')
 
-tab1, tab2 = st.tabs(["Visual data exploration", "Applying the data"])
+tab1, tab2, tab3 = st.tabs(
+    ["Visual data exploration", "Applying the data", "Miscellaneous"])
 
 ###### TAB ONE #######
 
@@ -705,42 +706,90 @@ with tab2:
     new_x_test = scale_test_df(season_to_drop)
     new_x_train = scale_train_df(season_to_drop)
 
-    new_auto_ml = AutoML()
-    new_automl_settings = {
-        "time_budget": 5,
-        "metric": 'accuracy',
-        "task": 'classification',
-        "log_file_name": "frasier.log",
-    }
-    # Train with labeled input data
-    new_auto_ml.fit(X_train=new_x_train, y_train=new_y_train,
-                    **new_automl_settings)
+    if st.button('Run model!'):
+        new_auto_ml = AutoML()
+        new_automl_settings = {
+            "time_budget": 5,
+            "metric": 'accuracy',
+            "task": 'classification',
+            "log_file_name": "frasier.log",
+        }
+        # Train with labeled input data
+        new_auto_ml.fit(X_train=new_x_train, y_train=new_y_train,
+                        **new_automl_settings)
 
-    @st.cache
-    def load_model():
-        '''used to lighten memory load'''
-        return pickle.load(f)
+        @st.cache
+        def load_model():
+            '''used to lighten memory load'''
+            return pickle.load(f)
 
-    with open("automl.pkl", "wb") as f:
-        pickle.dump(new_auto_ml, f, pickle.HIGHEST_PROTOCOL)
+        with open("automl.pkl", "wb") as f:
+            pickle.dump(new_auto_ml, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("automl.pkl", "rb") as f:
-        new_auto_ml = load_model()
+        with open("automl.pkl", "rb") as f:
+            new_auto_ml = load_model()
 
-    new_pred = new_auto_ml.predict(new_x_test)
+        new_pred = new_auto_ml.predict(new_x_test)
 
-    new_chart_compare = prepare_chart_df(season_to_drop, new_pred)
+        new_chart_compare = prepare_chart_df(season_to_drop, new_pred)
 
-    choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
-        x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
-        y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
-        color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
-        column=alt.Column('episodeCount:N',
-                          header=alt.Header(orient='bottom')),
-        tooltip=['imdbRatings']
-    ).configure_view(strokeWidth=0).properties(width=50)
+        choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
+            x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
+            y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
+            color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
+            column=alt.Column('episodeCount:N',
+                              header=alt.Header(orient='bottom')),
+            tooltip=['imdbRatings']
+        ).configure_view(strokeWidth=0).properties(width=50)
+
+        st.subheader(
+            "Results of the model's predicted IMDB ratings vs. the actual IMDB ratings.")
+
+        choice_auto_chart
+
+        new_info_dict = {'Best r2 on validation data:': [1-new_auto_ml.best_loss],
+                         'Training duration of best run:': [new_auto_ml.best_config_train_time],
+                         'R2:': [(1 - sklearn_metric_loss_score('r2', new_pred, season_11_y_test['imdbRatings']))],
+                         'MSE:': [sklearn_metric_loss_score('mse', new_pred, season_11_y_test['imdbRatings'])],
+                         'MAE:': [sklearn_metric_loss_score('mae', new_pred, season_11_y_test['imdbRatings'])]}
+
+        new_choice_fit_info = pd.DataFrame(new_info_dict)
+        new_choice_fit_info.index = ['result']
+
+        st.write("**This was the best-fitting model found**: " +
+                 new_auto_ml.best_estimator + " classifier")
+
+        st.write("**This is the best hyperparameter configuration for the model**:")
+        new_choice_best_config = {k: [v]
+                                  for k, v in new_auto_ml.best_config.items()}
+        new_choice_config = pd.DataFrame(new_choice_best_config)
+        new_choice_config.index = ['result']
+        st.dataframe(new_choice_config)
+
+        st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
+        st.table(new_choice_fit_info)
+    else:
+        st.write('The model will not run until you click this button.')
+
+#### MISCELLANY AND ACKNOWLEDGEMENTS TAB ####
+
+with tab3:
 
     st.subheader(
-        "Results of the model's predicted IMDB ratings vs. the actual IMDB ratings.")
+        "Sundry items like acknowledgements, links, things that tickled the creator's fancy (me), and so forth.")
 
-    choice_auto_chart
+    st.write(
+        "You can find the GitHub folder [here](https://github.com/amrungwaew/frasier_project).")
+
+    st.write(
+        "My thanks to Chip Oglesby, from whom the nice, tidy data was [sourced](https://data.world/chipoglesby/frasier-crane-television-transcripts).")
+
+    st.write("Did you know that there exists a compilation (multiple, in fact!) of every time Frasier says 'Oh, dear God!' throughout the show? Well, now you do...")
+
+    video_file = open('oh dear god.mp4', 'rb')
+    video_bytes = video_file.read()
+
+    st.video(video_bytes)
+
+    st.caption(
+        "From the YouTube channel of [ParaFrasier] (https://www.youtube.com/@parafrasier).")
