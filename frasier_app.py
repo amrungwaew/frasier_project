@@ -612,7 +612,7 @@ with tab2:
 
     with col1f:
         feature_choices = st.multiselect(
-            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
+            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=1)
 
     if st.button('Run model!', key=1):
 
@@ -702,7 +702,7 @@ with tab2:
 
     season_to_drop = st.selectbox(
         "Select a season to drop:",
-        (range(1, 11))
+        (range(1, 11)), key=1
     )
 
     new_y_test = split_y_test(season_to_drop)
@@ -782,14 +782,17 @@ with tab2:
         st.write('The model will not run until you click this button.')
 
 # User changing features and season ##### MODEL 4 ##### Functions
+    st.subheader(
+        "Now, let's see what happens when you get to control both the season that gets dropped _and_ the features used.")
+
     col1i, col2i = st.columns(2)
     with col1i:
         another_season_to_drop = st.selectbox(
             "Select a season to drop:",
-            (range(1, 11))
+            (range(1, 11)), key=2
         )
         new_feature_choices = st.multiselect(
-            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'])
+            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=2)
 
     another_new_y_test = split_y_test(another_season_to_drop)
     another_new_y_train = np.array(split_y_train(another_season_to_drop))
