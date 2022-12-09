@@ -30,8 +30,8 @@ st.image(header)
 st.header("Welcome to Anna's web app project that lets you look at information extracted from the transcripts of the iconic American TV show, *Frasier*.")
 df_frasier = pd.read_csv('tidyTranscripts.csv')
 
-tab1, tab2, tab3 = st.tabs(
-    ["Visual data exploration", "Applying the data", "Miscellaneous"])
+tab1, tab2, tab3, tab4 = st.tabs(
+    ["Visual data exploration", "Applying the data", "Miscellaneous", "Notes for Murillo"])
 
 ###### TAB ONE #######
 
@@ -788,15 +788,6 @@ with tab2:
 
 with tab3:
 
-    st.subheader(
-        "Sundry items like acknowledgements, links, things that tickled the creator's fancy (me), and so forth.")
-
-    st.write(
-        "You can find the GitHub folder [here](https://github.com/amrungwaew/frasier_project).")
-
-    st.write(
-        "My thanks to Chip Oglesby, from whom the nice, tidy data was [sourced](https://data.world/chipoglesby/frasier-crane-television-transcripts).")
-
     st.write("Did you know that there exists a compilation (multiple, in fact!) of every time Frasier says 'Oh, dear God!' throughout the show? Well, now you do...")
 
     video_file = open('oh dear god.mp4', 'rb')
@@ -806,3 +797,29 @@ with tab3:
 
     st.caption(
         "From the YouTube channel of [ParaFrasier] (https://www.youtube.com/@parafrasier).")
+
+    st.write(
+        "Here are the words and phrases from Frasier in my daily parlance (all with the correct intonations, of course): \n * 'What fresh hell is this?' \n * 'Rrrrrromping with my schoolchums...' \n * 'If less is more, think how much more more will be!' \n * 'I'm delightfully quirky.' \n *  'I was punched in the face by a man now dead!' \n *  'Her lips said no but her eyes said read my lips.' \n *  'I am wounded!' \n * 'But if a cricket's brain is _this_ big, think how big a gecko's brain is!' \n * 'Cute but stupid.' \n * 'Snausages!' \n * 'Copernicus called and you are not the centre of the universe.' \n * 'That dingo's got your baby.'")
+
+#### MISCELLANY AND ACKNOWLEDGEMENTS TAB ####
+
+with tab4:
+
+    st.subheader("Some general comments.")
+
+    st.write("I use FLAML, Microsoft's 'Fast Library for Automated Machine Learning & Tuning.' Several primary reasons for this choice are as follows. \n 1) The data is limited. Currently, I have not utilised the aspect of this data that captures every single word ever said in the show. Instead, I have 'collapsed' things down by episode. This means that, instead of approximately 775,000 observations, there are only about 260 observations. This 'feature engineering' results in a very small number that is far from ideal for machine learning purposes. However, it's what I've got for now (until I can learn more about how to handle the much larger, original dataset). \n 2) I set out to make the ML part of the web app more focused on user interaction as opposed to showing all the nitty-gritty details of what's going on under the machine learning hood. You can see a lot of that nitty-gritty stuff in my code, but FLAML makes this user-friendly goal much more easily achievable in a limited time frame. Because ain't nobody got time to manually tune dozens of hyperparameters... And, honestly, this is an app I'd like to eventually disseminate publically, so it seems silly to go through the bother of trying to get pyplot or somesuch to work with Streamlit just to throw up a bunch of graphics about stuff like confusion matrices and the like. But I do utilise underlying machine learning results and such by displaying the models' stats. \n 3) As you may or may not know, there are plans for a _Frasier_ reboot-continuation. Personal opinions and trepidations aside, I believe that this will prove a fascinating case study to see how the original _Frasier_ audience—of the '90's and '00's—interacts with a revival made 20 years later (as opposed to the newer audience). This is a balancing act we are seeing more and more in our media-saturated world as creators want to capture the widest audience possible. Creators have to decide how much to cater to the original audience while also catering to the new audiences. It's a snarly mess of social forces as generational ideologies continually shift and self-fashioning becomes ubiquitous. \n All that goes to say, I'm endlessly curious about how a _Frasier_ revival will be received. My project here represents a meagre attempt to become part of the larger discourse to see what (if anything) can be learned via data science techniques like machine learning.")
+
+    st.subheader(
+        "Sundry items like acknowledgements, links, etc. and so forth.")
+
+    st.write(
+        "You can find the GitHub folder [here](https://github.com/amrungwaew/frasier_project).")
+
+    st.write(
+        "My thanks to Chip Oglesby, from whom the nice, tidy data was [sourced](https://data.world/chipoglesby/frasier-crane-television-transcripts).")
+
+    st.subheader("Questions and quandries I'm still working through")
+
+    st.write("I'm sure my thought process and execution is far from perfect, this being my first attempt to use machine learning. Here are some of the outstanding things I've been rolling around in my mind, but didn't have the time/domain knowledge to actually address in my code.")
+
+    st.write("1. I originally began making functions to make a pipeline. However, it was very late in the process and my data had not been organised in such a way that a pipeline could easily be imposed. But the functions still came in handy. (I didn't group them because I'm scared of breaking things if something ends up out of order for the stuff outside of the functions in the manual parts.) (Season 8, episode 11) \n 2. I don't know if the important features chance from model to model. For now I'm just using the important features gathered from the first instance of AutoML(). But I may want to do some tweaking at some point to see if the features do in fact chance from instance to instance. And if they do, I want to understand why... and I don't know enough to ask that yet. (Season 7, episode 13) \n 3. Streamlit is very nice for simply stuff but very buggy and tedious for others. Other than the reported bug instance, there were a couple other times I ran into bugs. Also, I'm regularly going over the Streamlit resources (mainly memory, I think) so it keeps crashing and I have to keep rebooting. I submitted a form to see if they would allot me extra resources since this is a school project but alas, crickets. (Season 9, episode 2) \n 4. I ran out of time for now, but I want to be able to add a feature of a table or metric that can keep track of a user's 'score' with trying out different models. (Season 9, episode 14) \n 5. I don't know how to get around Streamlit constantly re-running when changes happen. I decided to leave all the model training inside the if loops to try to limit the amount of clogging up, but everything is still just slow and messy. (Season 8, episode 18)")
