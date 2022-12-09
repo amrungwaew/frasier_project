@@ -764,18 +764,23 @@ with tab2:
         new_choice_fit_info = pd.DataFrame(new_info_dict)
         new_choice_fit_info.index = ['result']
 
-        st.write("**This was the best-fitting model found**: " +
-                 new_auto_ml.best_estimator + " classifier")
+        col1h, col2h = st.columns(2)
 
-        st.write("**This is the best hyperparameter configuration for the model**:")
-        new_choice_best_config = {k: [v]
-                                  for k, v in new_auto_ml.best_config.items()}
-        new_choice_config = pd.DataFrame(new_choice_best_config)
-        new_choice_config.index = ['result']
-        st.dataframe(new_choice_config)
+        with col1h:
 
-        st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
-        st.table(new_choice_fit_info)
+            st.write("**This was the best-fitting model found**: " +
+                     new_auto_ml.best_estimator + " classifier")
+
+            st.write(
+                "**This is the best hyperparameter configuration for the model**:")
+            new_choice_best_config = {k: [v]
+                                      for k, v in new_auto_ml.best_config.items()}
+            new_choice_config = pd.DataFrame(new_choice_best_config)
+            new_choice_config.index = ['result']
+            st.dataframe(new_choice_config)
+
+            st.write("...**and these were the general stats, including the R2 value, which is the proportion of the variation in the dependent variable that is predictable from the independent variable**:")
+            st.table(new_choice_fit_info)
     else:
         st.write('The model will not run until you click this button.')
 
