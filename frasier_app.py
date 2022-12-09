@@ -615,7 +615,7 @@ with tab2:
             'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=1)
 
     if st.button('Run model!', key=2):
-
+        st.write("Please wait while the model loads... You'll know it's done when the running animation in the corner disappears.")
         choice_X_train = X_train_scaled.loc[:,
                                             X_train_scaled.columns.isin(feature_choices)]
         chosen_ml = AutoML()
@@ -711,7 +711,7 @@ with tab2:
     new_x_train = scale_train_df(season_to_drop)
 
     if st.button('Run model!', key=4):
-
+        st.write("Please wait while the model loads... You'll know it's done when the running animation in the corner disappears.")
         new_auto_ml = AutoML()
         new_automl_settings = {
             "time_budget": 5,
@@ -800,7 +800,7 @@ with tab2:
     another_new_x_train = scale_train_df(another_season_to_drop)
 
     if st.button('Run model!', key=7):
-
+        st.write("Please wait while the model loads... You'll know it's done when the running animation in the corner disappears.")
         another_choice_X_train = another_new_x_train.loc[:,
                                                          another_new_x_train.columns.isin(new_feature_choices)]
 
@@ -834,7 +834,7 @@ with tab2:
         another_new_chart_compare = prepare_chart_df(
             another_season_to_drop, another_new_pred)
 
-        another_choice_auto_chart = alt.Chart(new_chart_compare).mark_bar().encode(
+        another_choice_auto_chart = alt.Chart(another_new_chart_compare).mark_bar().encode(
             x=alt.X('type:N', axis=alt.Axis(title='Episode', grid=False)),
             y=alt.Y('imdbRatings:Q', axis=alt.Axis(title='Rating')),
             color=alt.Color('type:N', scale=alt.Scale(scheme='rainbow')),
