@@ -698,12 +698,14 @@ with tab2:
 
 # User input part 2 ####### ###### MODEL 3 ##### Functions
 
-    st.subheader("Now, onto grander things. You now can choose on what subset of the data the model gets trained on by selecting which season is dropped. That is, given the 11 seasons, one selected season is set aside for testing and the other 10 are for training.")
+    st.subheader("Now, onto grander things... You now can choose on what subset of the data the model gets trained on by selecting which season is dropped. That is, given the 11 seasons, one selected season is set aside for testing and the other 10 are for training.")
 
-    season_to_drop = st.selectbox(
-        "Select a season to drop:",
-        (range(1, 11)), key=3
-    )
+    col1hx, col2hx = st.columns(2)
+    with col1hx:
+        season_to_drop = st.selectbox(
+            "Select a season to drop:",
+            (range(1, 11)), key=3
+        )
 
     new_y_test = split_y_test(season_to_drop)
     new_y_train = np.array(split_y_train(season_to_drop))
