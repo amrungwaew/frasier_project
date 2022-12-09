@@ -614,7 +614,7 @@ with tab2:
         feature_choices = st.multiselect(
             'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=1)
 
-    if st.button('Run model!', key=1):
+    if st.button('Run model!', key=2):
 
         choice_X_train = X_train_scaled.loc[:,
                                             X_train_scaled.columns.isin(feature_choices)]
@@ -702,7 +702,7 @@ with tab2:
 
     season_to_drop = st.selectbox(
         "Select a season to drop:",
-        (range(1, 11)), key=1
+        (range(1, 11)), key=3
     )
 
     new_y_test = split_y_test(season_to_drop)
@@ -710,7 +710,7 @@ with tab2:
     new_x_test = scale_test_df(season_to_drop)
     new_x_train = scale_train_df(season_to_drop)
 
-    if st.button('Run model!', key=2):
+    if st.button('Run model!', key=4):
 
         new_auto_ml = AutoML()
         new_automl_settings = {
@@ -789,17 +789,17 @@ with tab2:
     with col1i:
         another_season_to_drop = st.selectbox(
             "Select a season to drop:",
-            (range(1, 11)), key=2
+            (range(1, 11)), key=5
         )
         new_feature_choices = st.multiselect(
-            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=2)
+            'Select the features you would like to include in training a better model:', actual_cols, ['Roz Doyle'], key=6)
 
     another_new_y_test = split_y_test(another_season_to_drop)
     another_new_y_train = np.array(split_y_train(another_season_to_drop))
     another_new_x_test = scale_test_df(another_season_to_drop)
     another_new_x_train = scale_train_df(another_season_to_drop)
 
-    if st.button('Run model!', key=3):
+    if st.button('Run model!', key=7):
 
         another_choice_X_train = another_new_x_train.loc[:,
                                                          another_new_x_train.columns.isin(new_feature_choices)]
