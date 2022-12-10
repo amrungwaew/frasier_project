@@ -601,7 +601,7 @@ with tab2:
         st.write(
             "_NOTE: Streamlit has limited support and I ran into a bug regarding how to display this table nicely. See my bug report [here](https://github.com/streamlit/streamlit/issues/5828)_")
 
-    st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the best fit. You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
+    st.subheader("Unsurprisingly, the default model doesn't do very well. This is where you get to experiment in modifying the model in order to see if you can come up with a set of features that will create the 'best fit,' meaning you want to try to get a R2 value that is close to 1 (with a positive sign). You can get a head start with this by limiting the selection of features to only those that had a non-zero value, as shown in the plot above.")
 
 # Begin user input part 1 ###### ###### MODEL 2 ##### manual
 
